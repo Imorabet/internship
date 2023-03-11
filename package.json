@@ -20,6 +20,9 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "react-icons": "^4.8.0"
+        "react-icons": "^4.8.0",
+        "react-slick": "^0.29.0",
+        "slick-carousel": "^1.8.1",
+        "swiper": "^9.1.0"
     }
 }
