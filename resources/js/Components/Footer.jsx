@@ -32,7 +32,7 @@ const Footer = () => {
                 <div className="w-1/5">
                     <div className="flex">
                         <RxTriangleRight className="text-white text-3xl" />{" "}
-                        <a href="https://www.ofppt.ma/ "  className="hover:underline">OFPPT</a>
+                        <a href="https://www.ofppt.ma/"  className="hover:underline">OFPPT</a>
                     </div>
                     <div className="flex">
                         {" "}

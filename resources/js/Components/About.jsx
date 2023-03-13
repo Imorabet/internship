@@ -2,7 +2,7 @@ import React from "react";
 
 const About = () => {
     return (
-        <div className=" flex justify-center items-center  gap-[4px]  bg-[#003366] px-[100px] py-[125px] ">
+        <div id="a-propos" className=" flex justify-center items-center  gap-[4px]  bg-[#003366] px-[100px] py-[125px] ">
             <div className=" w-[40%]">
                 <h1 className=" font-semibold leading-[45px] text-4xl  text-[#FFFEFE]  uppercase mb-10">
                     A propos de ismo

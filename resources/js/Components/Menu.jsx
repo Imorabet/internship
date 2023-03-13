@@ -17,13 +17,13 @@ export default function Menu({ className = '', ...props }) {
                     Acceuil
                 </Link>
                 <Link
-                    href="/a-propos"
+                    href="#a-propos"
                     className="font-semibold text-xl text-center uppercase text-white hover:text-gray-900 "
                 >
                     A propos
                 </Link>
                 <Link
-                    href="/filiers"
+                    href="#filieres"
                     className="font-semibold text-xl text-center uppercase text-white hover:text-gray-900"
                 >
                     Filieres
