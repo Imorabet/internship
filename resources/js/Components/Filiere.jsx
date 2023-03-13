@@ -1,5 +1,5 @@
 import React from 'react';
-import SimpleSlider from './Swiper';
+import SimpleSlider from './SimpleSlider';
 
 
 const Filiere = () => {
