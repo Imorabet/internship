@@ -9,25 +9,25 @@ export default function Menu() {
                 </Link>
             <div className="flex justify-center p-2 gap-6 mx-[19rem] " >
             <Link
-                href=""
+                href="/"
                 className="font-semibold text-xl leading-6 text-center uppercase text-white hover:text-gray-900"
             >
                  Acceuil
             </Link>
             <Link
-                href=""
+                href="/a-propos"
                 className="font-semibold text-xl leading-6 text-center uppercase text-white hover:text-gray-900 "
             >
                 A propos
             </Link>
             <Link
-                href="#"
+                href="/filiers"
                 className="font-semibold text-xl leading-6 text-center uppercase text-white hover:text-gray-900"
             >
                 Filieres
             </Link>
             <Link
-                href="#"
+                href="/contact"
                 className="font-semibold text-xl leading-6 text-center uppercase text-white hover:text-gray-900"
             >
                 contact

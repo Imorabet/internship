@@ -15,10 +15,10 @@ const Slider = ({images}) => {
               <FaAngleLeft/>
               </button>
              <div className="flex flex-col  items-center gap-[9px]">
-                <h1 className=" font-semibold text-4xl uppercase text-center text-white">Institut spécialisé dans les métiers d'offshoring Tétouan</h1>
+                <h1 className=" font-semibold text-4xl uppercase text-center text-white">Institut spécialisé dans les métiers de l'offshoring Tétouan</h1>
                 <h3 className="font-semibold text-lg  text-white">Le centre d'excellence</h3>
                 <p ref={slideText} className="text-base text-white mx-1 "></p>
-                <button className="uppercase w-52 text-white rounded-md font-bold cursor-pointer bg-none p-3 border-2 border-white">Plus d'infos</button>
+                <button className="uppercase w-52 text-white rounded-md font-bold cursor-pointer bg-none p-3 border-2  border-white">Plus d'infos</button>
               </div>
               <button onClick={goToNextSlide} className="bg-transparent text-6xl text-white cursor-pointer hover:scale-[0.95] mr-10">
               <FaAngleRight/>

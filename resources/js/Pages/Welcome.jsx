@@ -1,11 +1,11 @@
-import Filiere from '@/Components/Filiere';
-import Footer from '@/Components/Footer';
-import Images from '@/Components/Images';
-import Menu from '@/Components/Menu';
-import Slider from '@/Components/Slider';
+import Filiere from "@/Components/Filiere";
+import Footer from "@/Components/Footer";
+import Images from "@/Components/Images";
+import Menu from "@/Components/Menu";
+import Slider from "@/Components/Slider";
 
-import { Link, Head } from '@inertiajs/react';
-import About from '../Components/About';
+import { Link, Head } from "@inertiajs/react";
+import About from "../Components/About";
 
 export default function Welcome(props) {
     return (
@@ -13,31 +13,26 @@ export default function Welcome(props) {
             <Head title="ISMO TETOUAN" />
             <div className="">
                 {props.auth.user ? (
-                <div className="sm:fixed sm:top-0 p-6 ">
-
+                    <div className="sm:fixed sm:top-0 p-6 ">
                         <Link
-                            href={route('dashboard')}
+                            href={route("dashboard")}
                             className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm"
                         >
                             Dashboard
                         </Link>
-                   </div> ) : (
-                        <>
+                    </div>
+                ) : (
+                    <>
+                        <Menu />
 
-                        {/* <Menu/> */}
-                            <Menu/>
-                            <Slider images={Images} />
-                            <About/>
-                            <Filiere />
-                            <Footer/>
-
-
-                        </>
-                    )}
-
+                        <Slider images={Images} />
+                        <About />
+                        <Filiere />
+                        <Footer />
+                    </>
+                )}
 
                 <div className="max-w-7xl mx-auto p-6 lg:p-8">
-
                     {/* <div className="flex justify-center">
                         <svg
                             viewBox="0 0 62 65"
