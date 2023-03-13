@@ -37,7 +37,7 @@ export default function Menu({ className = '', ...props }) {
             </div>
             <Link
                 href={route("login")}
-                className=" right-0 font-semibold text-xl uppercase text-gray-600 bg-white p-3 rounded-md focus:outline focus:outline-2 focus:rounded-sm focus:outline-slate-400"
+                className=" right-0 font-semibold hover:shadow-xl hover:border hover:border-gray-600 text-xl uppercase text-gray-600 bg-white p-3 rounded-md focus:outline focus:outline-2 focus:rounded-sm focus:outline-slate-400"
             >
                 Se connecter
             </Link>
