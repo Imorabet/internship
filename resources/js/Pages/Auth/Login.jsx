@@ -45,7 +45,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
-            <form onSubmit={submit} className='flex flex-col gap-3'>
+            <form onSubmit={submit} className='flex flex-col gap-3 '>
                 <h1 className="text-center py-3 uppercase font-semibold text-[#003366] text-2xl">se connecter</h1>
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
@@ -61,7 +61,6 @@ export default function Login({ status, canResetPassword }) {
                         onChange={handleOnChange}
                         placeholder='Entrer votre email '
                     />
-
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
@@ -87,7 +86,7 @@ export default function Login({ status, canResetPassword }) {
                     Se connecter
                 </PrimaryButton>
                 </div>
-               
+
                 <div className="flex items-center justify-center mt-4">
                         <Link
                             href={route("register")}
@@ -95,7 +94,7 @@ export default function Login({ status, canResetPassword }) {
                         >
                             vous n'avez pas un compte s'inscrire maintenant
                         </Link>
-                   
+
                 </div>
             </form>
         </GuestLayout>

@@ -2,7 +2,7 @@ import { Link } from "@inertiajs/react";
 
 export default function Menu() {
     return (
-        <div className="absolute top-9 left-72 flex justify-center justify-items-center">
+        <div className="absolute top-9 left-72 flex justify-center justify-items-center ">
 
                 <Link href="/" className="text-3xl font-semibold text-white">
                     ISMO
@@ -33,7 +33,7 @@ export default function Menu() {
                 contact
             </Link>
             </div>
-            <Link  href={route("login")}  className="font-semibold uppercase text-gray-600 bg-white p-3 rounded-md focus:outline focus:outline-2 focus:rounded-sm focus:outline-slate-400">
+            <Link  href={route("login")}  className=" right-0 font-semibold uppercase text-gray-600 bg-white p-3 rounded-md focus:outline focus:outline-2 focus:rounded-sm focus:outline-slate-400">
                 Se connecter
             </Link>
         </div>

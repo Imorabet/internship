@@ -28,7 +28,7 @@ export default function Welcome(props) {
                             <Menu/>
                             <Slider images={Images} />
                             <About/>
-                            <Filiere/>
+                            <Filiere />
                             <Footer/>
 
 
