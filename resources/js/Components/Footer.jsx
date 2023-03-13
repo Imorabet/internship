@@ -30,7 +30,7 @@ return (
                        <div className="flex"> <RxTriangleRight className="text-white text-3xl"/><a href="https://login.digital.ofppt.ma/auth/realms/webforce-life/protocol/openid-connect/auth?client_id=wfl-front&redirect_uri=https%3A%2F%2Fdigital.ofppt.ma%2Fauthentication%2Fcallback&response_type=code&scope=openid%20profile%20email%20api%20offline_access&state=c9681acd949946ac9bfc8d692cc6fd2a&code_challenge=mOEJymxhDKeMm2f1tQS-8Ex-JGfNUuhdVeURfp2UuqA&code_challenge_method=S256&response_mode=query">WebForce</a></div>
                         <div className="flex"><RxTriangleRight className="text-white text-3xl"/><a href="https://ofppt.scholarvox.com/">Scholarvox</a></div>
                         </div>
-                        <div className="w-1/4  "  >
+                        <div className="w-1/4   font-semibold text-xl text-center uppercase text-white "  >
                             <SecondaryButton>Contactez-nous</SecondaryButton>
                         </div>
                 </div>

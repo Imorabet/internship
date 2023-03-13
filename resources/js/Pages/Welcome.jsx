@@ -6,6 +6,7 @@ import Slider from "@/Components/Slider";
 
 import { Link, Head } from "@inertiajs/react";
 import About from "../Components/About";
+import Contact from "./Contact";
 
 export default function Welcome(props) {
     return (
@@ -23,7 +24,7 @@ export default function Welcome(props) {
                     </div>
                 ) : (
                     <>
-                        <Menu />
+                        <Menu className="absolute top-9 left-72 " />
 
                         <Slider images={Images} />
                         <About />
