@@ -82,7 +82,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4 flex items-center justify-center">
-                     <PrimaryButton className="ml-4" disabled={processing}>
+                     <PrimaryButton className="ml-4 transition-[0.3s] hover:shadow-[0_0_0_5px_#3b83f65f]" disabled={processing}>
                     Se connecter
                 </PrimaryButton>
                 </div>

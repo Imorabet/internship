@@ -53,7 +53,7 @@ export default function SimpleSlider() {
         style:{width:'85%'},
     };
     return (
-        <div className="w-full p-9 flex justify-center"> 
+        <div className="w-full px-9 py-14 flex justify-center"> 
         <Slider {...settings}>
             {infos?.map((item, index) => (
                 <Card key={index} infos={item} />
