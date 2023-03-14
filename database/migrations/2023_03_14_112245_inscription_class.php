@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+        Schema::create('inscription_class', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_inscription');
+            $table->unsignedBigInteger('id_classe');
+            $table->foreign('id_classe')->references('id')->on('classe');
+            $table->foreign('id_inscription')->references('id')->on('inscription');
         });
     }
 
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('inscription_class');
     }
 };
