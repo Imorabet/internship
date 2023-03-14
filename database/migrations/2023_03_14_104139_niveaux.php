@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('classe',function(Blueprint $table){
+        Schema::create('niveaux', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->unsignedBigInteger('id_niveau');
-            $table->foreign('id_niveau')->references('id')->on('niveau')->onDelete('cascade');
+            $table->unsignedBigInteger('id_filieres');
+            $table->foreign('id_filieres')->references('id')->on('filieres')->onDelete('cascade');
+            
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classe');
+        Schema::dropIfExists('niveaux');
     }
 };

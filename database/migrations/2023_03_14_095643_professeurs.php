@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('inscription',function(Blueprint $table){
+        Schema::create('professeurs', function (Blueprint $table) {
             $table->id();
-            $table->date('date_inscription');
-            $table->year('annee_scolaire');
-            $table->unsignedBigInteger('id_niveau');
-            $table->foreign('id_niveau')->references('id')->on('niveau')->onDelete('cascade');
+            $table->string('nom');
+            $table->string('prenom');
+            $table->date('date_naissance');
+            $table->unsignedBigInteger('id_users');
+            $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');
+            
+            
         });
     }
 
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inscription');
+        Schema::dropIfExists('professeurs');
     }
 };

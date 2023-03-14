@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         
-        Schema::create('module',function(Blueprint $table){
+        Schema::create('modules',function(Blueprint $table){
             $table->id();
             $table->string('nom');
             $table->integer('masse_horaire');
-            $table->unsignedBigInteger('id_niveau');
-            $table->foreign('id_niveau')->references('id')->on('niveau');
+            $table->unsignedBigInteger('id_niveaux');
+            $table->foreign('id_niveaux')->references('id')->on('niveaux');
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('module');
+        Schema::dropIfExists('modules');
     }
 };

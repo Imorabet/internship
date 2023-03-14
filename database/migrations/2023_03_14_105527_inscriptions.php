@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('niveau', function (Blueprint $table) {
+        Schema::create('inscriptions',function(Blueprint $table){
             $table->id();
-            $table->string('nom');
-            $table->unsignedBigInteger('id_filiere');
-            $table->foreign('id_filiere')->references('id')->on('filiere')->onDelete('cascade');
-            
+            $table->date('date_inscription');
+            $table->year('annee_scolaire');
+            $table->unsignedBigInteger('id_niveaux');
+            $table->foreign('id_niveaux')->references('id')->on('niveaux')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('niveau');
+        Schema::dropIfExists('inscriptions');
     }
 };
