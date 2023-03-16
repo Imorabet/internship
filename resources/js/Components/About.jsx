@@ -2,12 +2,12 @@ import React from "react";
 
 const About = () => {
     return (
-        <div id="a-propos" className=" flex justify-center items-center  gap-[4px]  bg-[#003366] px-[100px] py-[125px] ">
-            <div className=" w-[40%]">
+        <div id="a-propos" className=" flex justify-center items-center  gap-3  bg-[#003366] px-[100px] py-[125px] ">
+            <div className="w-[50%]">
                 <h1 className=" font-semibold leading-[45px] text-4xl  text-[#FFFEFE]  uppercase mb-10">
                     A propos de ismo
                 </h1>
-                <p className=" font-medium text-xl text-[#F4F4F5] w-[90%]">
+                <p className=" font-medium text-xl text-[#F4F4F5] w-full">
                     Cet institut, qui s'inscrit dans le cadre du programme de
                     développement intégré destiné à accompagner le
                     Contrat-programme TIC, mis en place par l'OFPPT, a pour
@@ -33,7 +33,7 @@ const About = () => {
                     sa région
                 </p>
             </div>
-            <div className=" rounded-[36px] w-[40%] border-4 border-solid border-white ">
+            <div className=" rounded-[36px] w-1/2  border-4 border-solid border-white ">
                 <img
                     src="https://www.ismo.ma/images/ismo.jpg"
                     className="rounded-[36px] w-full h-[590px]"

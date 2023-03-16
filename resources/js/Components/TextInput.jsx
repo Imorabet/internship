@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef } from 'react';
 
-export default forwardRef(function TextInput({ type = 'text', className = '',max=0, isFocused = false, ...props }, ref) {
+export default forwardRef(function TextInput({ type = 'text', className = '', isFocused = false, ...props }, ref) {
     const input = ref ? ref : useRef();
 
     useEffect(() => {
@@ -12,7 +12,6 @@ export default forwardRef(function TextInput({ type = 'text', className = '',max
     return (
         <div className="flex flex-col items-start">
             <input
-                max={max}
                 {...props}
                 type={type}
                 className={

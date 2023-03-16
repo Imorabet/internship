@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('inscriptions',function(Blueprint $table){
             $table->id();
-            $table->date('date_inscription');
-            $table->year('annee_scolaire');
+            $table->date('date_inscription')->default(now());
+            $table->year('annee_scolaire')->default(date('Y'));
             $table->unsignedBigInteger('id_niveaux');
             $table->foreign('id_niveaux')->references('id')->on('niveaux')->onDelete('cascade');
         });

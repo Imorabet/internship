@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('inscription_classes', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_inscriptions')->default(now());
-            $table->unsignedBigInteger('id_classes')->default(date('Y'));
+            $table->unsignedBigInteger('id_inscriptions');
+            $table->unsignedBigInteger('id_classes');
             $table->foreign('id_classes')->references('id')->on('classes');
             $table->foreign('id_inscriptions')->references('id')->on('inscriptions');
         });

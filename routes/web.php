@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FiliereController;
+use App\Http\Controllers\NiveauController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +29,8 @@ Route::get('/', function () {
 Route::get('/contact', function(){
     return Inertia::render('Contact');
 });
+Route::get('/filieres',[FiliereController::class,'getFilieres']);
+Route::get('/niveaux',[NiveauController::class,'getNiveaux']);
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

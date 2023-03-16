@@ -8,7 +8,7 @@ import Card from "./Card";
 export default function SimpleSlider() {
     const infos = [
         {
-            title: "DEVELOPPENT DIGITAL",
+            title: "Développement Digital",
             description:
                 "Le tronc commun en développement digital est une étape importante pour acquérirles bases necessaires de l'étude, la conception,la construction,le développement,la mise au point,la maintenance et à l'amélioration des logiciels,des applications et des sites web.",
             link: "https://www.myway.ac.ma/ofppt/fr/FILI%C3%88RES/Digital-et-Intelligence-Artificielle/D%C3%A9veloppement-Digital/p/DIA_DEV_TS",
@@ -50,10 +50,10 @@ export default function SimpleSlider() {
         speed: 500,
         slidesToShow: 4,
         slidesToScroll: 1,
-        style:{width:'85%'},
+        style:{width:'100%'},
     };
     return (
-        <div className="w-full px-9 py-14 flex justify-center"> 
+        <div className="w-full px-9 py-16 flex justify-center"> 
         <Slider {...settings}>
             {infos?.map((item, index) => (
                 <Card key={index} infos={item} />

@@ -24,7 +24,7 @@ export default function Welcome(props) {
                     </div>
                 ) : (
                     <>
-                        <Menu className="absolute top-9 left-48 " />
+                        <Menu className="absolute  " />
                         <Slider images={Images} />
                         <About />
                         <Filiere />

@@ -4,33 +4,33 @@ export default function Menu({ className = '', ...props }) {
     return (
         <div
             {...props}
-            className={`flex gap-24 `+className}
+            className={`flex py-4 px-6 `+className}
         >
             <Link href="/" className="text-4xl font-semibold text-white">
                 ISMO
             </Link>
-            <div className="flex justify-center p-2 gap-20 mx-[19rem] ">
+            <div className="flex justify-center p-2 gap-20 mx-[12rem] ">
                 <Link
                     href="/"
-                    className="font-semibold text-xl text-center uppercase text-white hover:text-gray-900"
+                    className="font-semibold text-xl text-center uppercase text-white "
                 >
                     Acceuil
                 </Link>
                 <Link
                     href="#a-propos"
-                    className="font-semibold text-xl text-center uppercase text-white hover:text-gray-900 "
+                    className="font-semibold text-xl text-center uppercase text-white"
                 >
                     A propos
                 </Link>
                 <Link
                     href="#filieres"
-                    className="font-semibold text-xl text-center uppercase text-white hover:text-gray-900"
+                    className="font-semibold text-xl text-center uppercase text-white "
                 >
                     Filieres
                 </Link>
                 <Link
                     href="/contact"
-                    className="font-semibold text-xl text-center uppercase text-white hover:text-gray-900"
+                    className="font-semibold text-xl text-center uppercase text-white "
                 >
                     contact
                 </Link>
