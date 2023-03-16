@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->date('date_naissance');
+            $table->boolean('statut')->default(false);
+            $table->string('avatar')->nullable();
             $table->unsignedBigInteger('id_users');
             $table->unsignedBigInteger('id_inscriptions');
             $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');

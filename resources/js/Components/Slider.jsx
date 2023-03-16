@@ -18,7 +18,7 @@ const Slider = ({images}) => {
                 <h1 className=" font-semibold text-4xl uppercase text-center text-white">Institut spécialisé dans les métiers de l'offshoring Tétouan</h1>
                 <h3 className="font-semibold text-lg  text-white">Le centre d'excellence</h3>
                 <p ref={slideText} className="text-base text-white mx-1 "></p>
-                <button className="uppercase w-52 text-white rounded-md font-bold cursor-pointer bg-none p-3 border-2  border-white">Plus d'infos</button>
+                <a href='#a-propos' className="uppercase w-52 text-white rounded-md font-bold cursor-pointer bg-none p-3 border-2 text-center border-white">Plus d'infos</a>
               </div>
               <button onClick={goToNextSlide} className="bg-transparent text-6xl text-white cursor-pointer hover:scale-[0.95] mr-10">
               <FaAngleRight/>
