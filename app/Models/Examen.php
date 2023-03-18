@@ -16,6 +16,7 @@ class Examen extends Model
         'id_classes',
 
     ];
+    public $timestamps = false;
     public function inscriptions(){
         return $this->belongsToMany(Inscription::class,'evaluations');
     }

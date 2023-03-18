@@ -9,4 +9,5 @@ class Evalution extends Model
 {
     use HasFactory;
     protected $table ='evaluations';
+    public $timestamps = false;
 }

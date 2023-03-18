@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Inscription;
 use App\Models\Stagiaire;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -35,7 +36,6 @@ class RegisteredUserController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
-            'date' => 'required|date',
             'email' => 'required|string|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -43,12 +43,20 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $inscription = Inscription::create([
+            'id_niveaux' => $request->niveau,
+        ]);
         $stagiaire = Stagiaire::create([
-            'nom' => $request->name,
+            'nom' => $request->nom,
             'prenom' => $request->prenom,
             'date_naissance' => $request->date,
             'id_users' => $user->id,
+            'id_inscriptions' => $inscription->id,
         ]);
+
+        $stagiaire->save();
+
 
 
         event(new Registered($user));

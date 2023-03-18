@@ -21,6 +21,7 @@ class Stagiaire extends Model
     protected $casts=[
         'date_naissance'=>'date',
     ];
+    public $timestamps = false;
     public function inscription(){
         return $this->belongsTo(Inscription::class);
     }

@@ -14,6 +14,7 @@ class Module extends Model
         'id_niveaux',
 
     ];
+    public $timestamps = false;
     public function professeur(){
         return $this->belongsToMany(Professeur::class,'affectations');
     }

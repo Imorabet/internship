@@ -12,6 +12,7 @@ class Classe extends Model
         'nom',
         'id_niveaux'
     ];
+    public $timestamps = false;
     public function examen(){
         return $this->hasMany(Examen::class);
     }

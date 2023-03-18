@@ -12,6 +12,7 @@ class Niveau extends Model
         'nom',
         'id_filieres',
     ];
+    public $timestamps = false;
     public function niveau(){
         return $this->hasMany(Niveau::class);
     }

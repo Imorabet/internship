@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
@@ -9,10 +8,13 @@ import { Head, Link, useForm } from "@inertiajs/react";
 export default function Register() {
     const [filiereOptions, setFiliereOptions] = useState([]);
     const [niveauOptions, setNiveauOptions] = useState([]);
+    const [maxDate, setMaxDate] = useState(new Date().toISOString().split("T")[0]);
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: "",
+        nom: "",
         prenom: "",
         date: "",
+        niveau: "",
+        filiere: "",
         email: "",
         password: "",
         password_confirmation: "",
@@ -56,24 +58,25 @@ export default function Register() {
                 <h1 className="text-center py-3 uppercase font-semibold text-[#003366] text-2xl">
                     s'INSCRIRe
                 </h1>
-
+                <p className="text-center py-1">
+                    Inscrivez-vous maintenant et devenez l'un de nos stagiaires.
+                </p>
                 <div className="flex gap-2 mt-4">
                     <div className="w-1/2">
                         <TextInput
-                            id="name"
-                            name="name"
-                            value={data.name}
+                            id="nom"
+                            name="nom"
+                            value={data.nom}
                             className="mt-1 block w-full"
-                            autoComplete="name"
+                            autoComplete="nom"
                             isFocused={true}
                             onChange={handleOnChange}
-                            placeholder='Nom'
+                            placeholder="Nom"
                             required
                         />{" "}
-                        <InputError message={errors.name} className="mt-2" />
+                        <InputError message={errors.nom} className="mt-2" />
                     </div>
                     <div className="w-1/2">
-
                         <TextInput
                             id="prenom"
                             name="prenom"
@@ -83,14 +86,13 @@ export default function Register() {
                             isFocused={true}
                             onChange={handleOnChange}
                             required
-                            placeholder='Prénom'
+                            placeholder="Prénom"
                         />
                         <InputError message={errors.prenom} className="mt-2" />
                     </div>
                 </div>
 
                 <div className="mt-4">
-
                     <TextInput
                         id="email"
                         type="email"
@@ -100,13 +102,12 @@ export default function Register() {
                         autoComplete="username"
                         onChange={handleOnChange}
                         required
-                        placeholder='Email'
+                        placeholder="Email"
                     />
 
                     <InputError message={errors.email} className="mt-2" />
                 </div>
                 <div className="mt-4">
-
                     <TextInput
                         id="date"
                         name="date"
@@ -117,7 +118,8 @@ export default function Register() {
                         isFocused={true}
                         onChange={handleOnChange}
                         required
-                        placeholder='Date de naissance'
+                        max={maxDate}
+                        placeholder="Date de naissance"
                     />
 
                     <InputError message={errors.date} className="mt-2" />
@@ -127,8 +129,11 @@ export default function Register() {
                         className="w-1/4 border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm"
                         name="niveau"
                         id="niveau"
+                        value={data.niveau}
+                        onChange={handleOnChange}
+                        required
                     >
-                        <option value="">niveau</option>
+                        <option value="">Niveau</option>
                         {niveauOptions.map((option) => (
                             <option key={option.id} value={option.id}>
                                 {option.nom}
@@ -138,18 +143,30 @@ export default function Register() {
                     <select
                         name="filiere"
                         id="filiere"
+                        value={data.filiere}
+                        onChange={handleOnChange}
+                        required
                         className="w-3/4 border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm "
                     >
                         <option value="">Choisissez filiere</option>
-                        {filiereOptions.map((option) => (
-                            <option key={option.id} value={option.id}>
-                                {option.nom}
-                            </option>
-                        ))}
+                        {filiereOptions.map((option) => {
+                            const niveau = niveauOptions.find(
+                                (niveau) => niveau.id==data.niveau
+                                
+                            );
+                            
+                            if (niveau && niveau.id_filieres === option.id) {
+                                return (
+                                    <option key={option.id} value={option.id}>
+                                        {option.nom}
+                                    </option>
+                                );
+                            }
+                            else console.log('not khadama');
+                        })}
                     </select>
                 </div>
                 <div className="mt-4">
-
                     <TextInput
                         id="password"
                         type="password"
@@ -159,15 +176,13 @@ export default function Register() {
                         autoComplete="new-password"
                         onChange={handleOnChange}
                         required
-                        placeholder='Mot de passe'
+                        placeholder="Mot de passe"
                     />
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
-                   
-
                     <TextInput
                         id="password_confirmation"
                         type="password"
@@ -177,7 +192,7 @@ export default function Register() {
                         autoComplete="new-password"
                         onChange={handleOnChange}
                         required
-                        placeholder='Confirmer mot de passe'
+                        placeholder="Confirmer mot de passe"
                     />
 
                     <InputError

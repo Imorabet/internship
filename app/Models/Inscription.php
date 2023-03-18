@@ -16,6 +16,7 @@ class Inscription extends Model
         'date_inscription'=>'date',
         'annee_scolaire'=>'year'
     ];
+    public $timestamps = false;
     public function niveau(){
         return $this->belongsTo(Niveau::class);
     }
@@ -28,4 +29,5 @@ class Inscription extends Model
     public function examens(){
         return $this->belongsToMany(Examen::class,'evaluations');
     }
+    
 }

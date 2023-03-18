@@ -18,6 +18,7 @@ class Administrateur extends Model
     protected $casts=[
         'date_naissance'=>'date',
     ];
+    public $timestamps = false;
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -11,6 +11,7 @@ class TypeExamen extends Model
     protected $fillable = [
         'nom',
     ];
+    public $timestamps = false;
     public function examen(){
         return $this->hasMany(Examen::class);
     }

@@ -9,4 +9,5 @@ class Affectation extends Model
 {
     use HasFactory;
     protected $table = 'affectations';
+    public $timestamps = false;
 }

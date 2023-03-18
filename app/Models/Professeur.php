@@ -15,6 +15,7 @@ class Professeur extends Model
         'id_users'
 
     ];
+    public $timestamps = false;
     protected $casts=[
         'date_naissance'=>'date',
     ];

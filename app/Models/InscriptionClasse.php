@@ -9,4 +9,5 @@ class InscriptionClasse extends Model
 {
     use HasFactory;
     protected $table='inscription_classes';
+    public $timestamps = false;
 }
