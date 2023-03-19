@@ -3,6 +3,7 @@
 use App\Http\Controllers\FiliereController;
 use App\Http\Controllers\NiveauController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StagiaireController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,14 +27,31 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-Route::get('/contact', function(){
+Route::get('/contact', function () {
     return Inertia::render('Contact');
 });
-Route::get('/filieres',[FiliereController::class,'getFilieres']);
-Route::get('/niveaux',[NiveauController::class,'getNiveaux']);
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/filieres', [FiliereController::class, 'getFilieres']);
+Route::get('/niveaux', [NiveauController::class, 'getNiveaux']);
+
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+#--------------------------------------------------------------------------
+Route::get('/dashboard/stagiaire', function () {
+    return Inertia::render('Stagiaire/Dashboard');
+}, [StagiaireController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:stagiaires'])->name('dashboard.stagiaire');
+#---------------------------------------------------
+Route::get('/dashboard/professeur', function () {
+    return Inertia::render('Professeur/Dashboard');
+}, [ProfesseurController::class, 'index'])
+    ->middleware('auth', 'role:professeurs')->name('dashboard.professeur');
+#----------------------------------------------------------------
+Route::get('/dashboard/admin', function () {
+    return Inertia::render('Admin/Dashboard');
+}, [AdminController::class, 'index'])
+    ->middleware('auth', 'role:administrateur')->name('dashboard.admin');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -41,4 +59,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

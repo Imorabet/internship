@@ -13,6 +13,6 @@ class TypeExamen extends Model
     ];
     public $timestamps = false;
     public function examen(){
-        return $this->hasMany(Examen::class);
+        return $this->hasMany(Examen::class,'id_type_examens');
     }
 }

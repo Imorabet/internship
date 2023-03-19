@@ -17,12 +17,12 @@ class Classe extends Model
         return $this->hasMany(Examen::class);
     }
     public function inscriptions(){
-        return $this->belongsToMany(Inscription::class,'inscription_classes');
+        return $this->belongsToMany(Inscription::class,'inscription_classes','id_inscriptions');
     }
     public function module(){
-        return $this->belongsToMany(Module::class,'affectations');
+        return $this->belongsToMany(Module::class,'affectations','id_modules');
     }
     public function professeur(){
-        return $this->belongsToMany(Professeur::class,'affectations');
+        return $this->belongsToMany(Professeur::class,'affectations','id_professeurs');
     }
 }

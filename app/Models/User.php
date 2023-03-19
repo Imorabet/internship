@@ -43,16 +43,16 @@ class User extends Authenticatable
    
     public function administrateur()
     {
-        return $this->hasMany(Administrateur::class);
+        return $this->hasMany(Administrateur::class,'id_users');
     }
 
     public function professeurs()
     {
-        return $this->hasMany(Professeur::class);
+        return $this->hasMany(Professeur::class,'id_users');
     }
 
     public function stagiaires()
     {
-        return $this->hasMany(Stagiaire::class);
+        return $this->hasMany(Stagiaire::class,'id_users');
     }
 }

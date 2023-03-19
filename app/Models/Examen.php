@@ -18,16 +18,16 @@ class Examen extends Model
     ];
     public $timestamps = false;
     public function inscriptions(){
-        return $this->belongsToMany(Inscription::class,'evaluations');
+        return $this->belongsToMany(Inscription::class,'evaluations','id_inscriptions');
     }
     public function module(){
-        return $this->belongsTo(Module::class);
+        return $this->belongsTo(Module::class,'id_modules');
     }
     public function class(){
-        return $this->belongsTo(Classe::class);
+        return $this->belongsTo(Classe::class,'id_classes');
     }
     public function type_examen(){
-        return $this->belongsTo(TypeExamen::class);
+        return $this->belongsTo(TypeExamen::class,'id_type_examens');
     }
 
 }

@@ -18,16 +18,16 @@ class Inscription extends Model
     ];
     public $timestamps = false;
     public function niveau(){
-        return $this->belongsTo(Niveau::class);
+        return $this->belongsTo(Niveau::class,'id_niveaux');
     }
     public function classes(){
-        return $this->belongsToMany(Classe::class,'inscription_classes');
+        return $this->belongsToMany(Classe::class,'inscription_classes','id_classes');
     }
     public function stagiaire(){
-        return $this->hasMany(Stagiaire::class);
+        return $this->hasMany(Stagiaire::class,'id_stagiaires');
     }
     public function examens(){
-        return $this->belongsToMany(Examen::class,'evaluations');
+        return $this->belongsToMany(Examen::class,'evaluations','id_examens');
     }
     
 }

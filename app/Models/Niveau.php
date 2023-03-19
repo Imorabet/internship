@@ -14,7 +14,7 @@ class Niveau extends Model
     ];
     public $timestamps = false;
     public function niveau(){
-        return $this->hasMany(Niveau::class);
+        return $this->hasMany(Niveau::class,'id_niveaux');
     }
 
 }

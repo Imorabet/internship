@@ -20,13 +20,13 @@ class Professeur extends Model
         'date_naissance'=>'date',
     ];
     public function module(){
-        return $this->belongsToMany(Module::class,'affectations');
+        return $this->belongsToMany(Module::class,'affectations','id_modules');
     }
     public function class(){
-        return $this->belongsToMany(Classe::class,'affectations');
+        return $this->belongsToMany(Classe::class,'affectations','id_classes');
     }
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'id_users');
     }
 }

@@ -23,10 +23,10 @@ class Stagiaire extends Model
     ];
     public $timestamps = false;
     public function inscription(){
-        return $this->belongsTo(Inscription::class);
+        return $this->belongsTo(Inscription::class,'id_inscriptions');
     }
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'id_users');
     }
 }
