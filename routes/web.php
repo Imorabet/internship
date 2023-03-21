@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\FiliereController;
 use App\Http\Controllers\NiveauController;
+use App\Http\Controllers\ProfesseurController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StagiaireController;
 use Illuminate\Foundation\Application;
@@ -36,21 +39,22 @@ Route::get('/niveaux', [NiveauController::class, 'getNiveaux']);
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/RedirectAuthenticated',[AuthenticatedSessionController::class,'store']);
 #--------------------------------------------------------------------------
 Route::get('/dashboard/stagiaire', function () {
     return Inertia::render('Stagiaire/Dashboard');
 }, [StagiaireController::class, 'index'])
-    ->middleware(['auth', 'verified', 'role:stagiaires'])->name('dashboard.stagiaire');
+    ->middleware(['auth', 'role:stagiaires'])->name('dashboard.stagiaire');
 #---------------------------------------------------
 Route::get('/dashboard/professeur', function () {
     return Inertia::render('Professeur/Dashboard');
 }, [ProfesseurController::class, 'index'])
-    ->middleware('auth', 'role:professeurs')->name('dashboard.professeur');
+    ->middleware(['auth', 'role:professeurs'])->name('dashboard.professeur');
 #----------------------------------------------------------------
 Route::get('/dashboard/admin', function () {
     return Inertia::render('Admin/Dashboard');
 }, [AdminController::class, 'index'])
-    ->middleware('auth', 'role:administrateur')->name('dashboard.admin');
+    ->middleware(['auth', 'role:administrateur'])->name('dashboard.admin');
 
 
 Route::middleware('auth')->group(function () {
