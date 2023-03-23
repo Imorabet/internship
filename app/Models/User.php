@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -45,7 +46,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Administrateur::class,'id_users');
     }
-
+    public function getinfo(){
+        $info = Administrateur::where('id_users',Auth::id())->get()->first();
+       
+        return  $info;
+    }
     public function professeurs()
     {
         return $this->hasMany(Professeur::class,'id_users');

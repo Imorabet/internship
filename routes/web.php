@@ -52,10 +52,10 @@ Route::get('/dashboard/professeur', function () {
     ->middleware(['auth', 'role:professeurs'])->name('dashboard.professeur');
 #----------------------------------------------------------------
 Route::get('/dashboard/admin', function () {
-    return Inertia::render('Admin/Dashboard');
+    $admin = session('admin');
+    return Inertia::render('Admin/Dashboard', compact('admin'));
 }, [AdminController::class, 'index'])
     ->middleware(['auth', 'role:administrateur'])->name('dashboard.admin');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

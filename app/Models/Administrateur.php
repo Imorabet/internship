@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Administrateur extends Model
 {
@@ -22,5 +23,9 @@ class Administrateur extends Model
     public function user()
     {
         return $this->belongsTo(User::class,'id_users');
+    }
+    public function administrateurinfo()
+    {
+        return Administrateur::where('id_users',Auth::id())->get()->first();
     }
 }
