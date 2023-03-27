@@ -7,10 +7,12 @@ use App\Models\Inscription;
 use App\Models\Stagiaire;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
@@ -31,7 +33,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
             'nom' => 'required|string|max:255',
@@ -39,30 +41,39 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-        $user = User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        DB::beginTransaction();
+        try {
+            $user = User::create([
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        $inscription = Inscription::create([
-            'id_niveaux' => $request->niveau,
-        ]);
-        $stagiaire = Stagiaire::create([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'date_naissance' => $request->date,
-            'id_users' => $user->id,
-            'id_inscriptions' => $inscription->id,
-        ]);
+            $inscription = Inscription::create([
+                'id_niveaux' => $request->niveau,
+                'date_inscription' => now(),
+                'annee_scolaire' => now()->format('Y'),
+            ]);
+            $stagiaire = Stagiaire::create([
+                'nom' => $request->nom,
+                'prenom' => $request->prenom,
+                'date_naissance' => $request->date,
+                'id_users' => $user->id,
+                'id_inscriptions' => $inscription->id,
+            ]);
 
-        $stagiaire->save();
+            $stagiaire->save();
 
 
 
-        event(new Registered($user));
+            event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+            Auth::login($user);
+            DB::commit();
+            return redirect('/login');
+        } catch (ValidationException $e) {
+            DB::rollback();
+            echo "meskina";
+            return redirect()->back()->withErrors($e)->withInput();
+        }
     }
 }

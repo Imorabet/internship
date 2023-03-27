@@ -67,7 +67,7 @@ export default function Register() {
                             id="nom"
                             name="nom"
                             value={data.nom}
-                            className="mt-1 block w-full"
+                            className="mt-1 block w-full capitalize"
                             autoComplete="nom"
                             isFocused={true}
                             onChange={handleOnChange}
@@ -81,7 +81,7 @@ export default function Register() {
                             id="prenom"
                             name="prenom"
                             value={data.prenom}
-                            className="mt-1 block w-full"
+                            className="mt-1 block w-full capitalize"
                             autoComplete="prenom"
                             isFocused={true}
                             onChange={handleOnChange}
@@ -133,7 +133,7 @@ export default function Register() {
                         onChange={handleOnChange}
                         required
                     >
-                        <option value="">Niveau</option>
+                        <option value="" disabled>Niveau</option>
                         {niveauOptions.map((option) => (
                             <option key={option.id} value={option.id}>
                                 {option.nom}

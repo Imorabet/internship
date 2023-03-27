@@ -57,6 +57,9 @@ Route::get('/dashboard/admin', function () {
 }, [AdminController::class, 'index'])
     ->middleware(['auth', 'role:administrateur'])->name('dashboard.admin');
 
+Route::get('/stagiaires', [StagiaireController::class, 'getNewInscriptions'])->middleware(['auth', 'role:administrateur']);
+Route::delete('/stagiaires/{stagiaire}',[StagiaireController::class, 'destroy'] )->middleware(['auth', 'role:administrateur'])->name('stagiaire.destroy');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

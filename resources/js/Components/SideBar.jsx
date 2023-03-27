@@ -19,7 +19,7 @@ export default function SideBar(){
                 <ul className="mt-6 space-y-2 tracking-wide">
                     <li className="min-w-max hover:bg-[#2d3f80]">
                         <Link
-                            href="#"
+                            href="/stagiaires"
                             aria-label="dashboard"
                             className="relative flex items-center space-x-4 bg-gradient-to-r  px-4 py-3 text-white"
                         >

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->integer('masse_horaire');
-            $table->unsignedBigInteger('id_niveaux');
+            $table->integer('id_niveaux');
             $table->foreign('id_niveaux')->references('id')->on('niveaux');
         });
     }

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('niveaux', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->primary();
             $table->string('nom');
             $table->unsignedBigInteger('id_filieres');
             $table->foreign('id_filieres')->references('id')->on('filieres')->onDelete('cascade');
