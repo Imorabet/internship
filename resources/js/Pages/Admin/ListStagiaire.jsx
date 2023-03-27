@@ -3,26 +3,45 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import SideBar from "@/Components/SideBar";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage } from "@inertiajs/react";
-import { useState } from "react";
+import { Head, useForm, usePage } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
+import axios from "axios";
 
 export default function ListStagiare(props) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
+    const [niveauOptions, setNiveauOptions] = useState([]);
+
+    const {
+        data,
+        setData,
+        delete: destroy,
+        processing,
+    } = useForm({
+        idd: '',
+    });
 
     const confirmUserDeletion = (id) => {
         setConfirmingUserDeletion(true);
         setData({ id: id }); // set the id to the `data` object in `useForm` hook
     };
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios("/niveaux");
+            setNiveauOptions(response.data.niveauOptions);
+        };
 
-    const deleteUser = (e) => {
+        fetchData();
+    }, []);
+
+    async function deleteUser(e) {
         e.preventDefault();
-
-        destroy(route(`stagiaires.destroy`, data.id), {
+        destroy(route('stagiaire.destroy',data.id), {
             preserveScroll: true,
-            onSuccess: () => closeModal(),
+            onSuccess: () => closeModal()
         });
-    };
+        closeModal();
+    }
 
     const closeModal = () => {
         setConfirmingUserDeletion(false);
@@ -123,10 +142,15 @@ export default function ListStagiare(props) {
                                                     filiere
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                    {
-                                                        stagiaire.inscription
-                                                            .id_niveaux
-                                                    }
+                                                    {niveauOptions.length === undefined
+                                                        ? "N/A"
+                                                        : niveauOptions.find(
+                                                              (niveau) =>
+                                                                  niveau.id ===
+                                                                  stagiaire
+                                                                      .inscription
+                                                                      .id_niveaux
+                                                          )?.nom || "N/A"}
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                     {stagiaire.statut}
@@ -174,8 +198,9 @@ export default function ListStagiare(props) {
                                                                 >
                                                                     Annuler
                                                                 </SecondaryButton>
+                                    
 
-                                                                <DangerButton className="ml-3">
+                                                                <DangerButton className="ml-3"disabled={processing}>
                                                                     Supprimer
                                                                 </DangerButton>
                                                             </div>

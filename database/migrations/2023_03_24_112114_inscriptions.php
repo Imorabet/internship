@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->date('date_inscription')->default(now());
             $table->year('annee_scolaire')->default(now()->format('Y'));
-            $table->inte('id_niveaux');
+            $table->integer('id_niveaux');
             $table->foreign('id_niveaux')->references('id')->on('niveaux')->onDelete('cascade');
         });
     }

@@ -6,8 +6,6 @@ import Slider from "@/Components/Slider";
 
 import { Link, Head } from "@inertiajs/react";
 import About from "../Components/About";
-import Contact from "./Contact";
-
 export default function Welcome(props) {
     return (
         <>

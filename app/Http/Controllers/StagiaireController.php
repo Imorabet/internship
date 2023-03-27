@@ -25,19 +25,13 @@ class StagiaireController extends Controller
         ]);
     }
     public function destroy(Stagiaire $stagiaire)
-{
-    // Delete the sta$stagiaire's inscription first
-    $inscription = $stagiaire->inscription;
-    $inscription->delete();
+    {
+        $inscription = $stagiaire->inscription;
+        $inscription->delete();
+        $user = $stagiaire->user;
+        $user->delete();
 
-    // Delete the sta$stagiaire
-    $user = $stagiaire->user;
-    $user->delete();
-    // Delete the student
-  
-    $stagiaire->delete();
-
-    // Redirect back to the page where the delete button was clicked
-    return redirect('/stagiaires');
+        $stagiaire->delete();
+        return redirect()->back();
+    }
 }
-}   

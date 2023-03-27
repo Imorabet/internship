@@ -53,7 +53,6 @@ export default function DeleteUserForm({ className }) {
                     deleting your account, please download any data or information that you wish to retain.
                 </p>
             </header>
-
             <DangerButton onClick={confirmUserDeletion}>Delete Account</DangerButton>
 
             <Modal show={confirmingUserDeletion} onClose={closeModal}>
