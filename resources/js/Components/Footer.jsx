@@ -26,7 +26,7 @@ const Footer = () => {
                     </div>
                     <div className="flex gap-5">
                         <MdFacebook className="text-white text-3xl" />
-                        <a href="https://www.facebook.com/ismo.tet/">ISMO</a>
+                        <a href="https://www.facebook.com/ismo.tet/" className="hover:underline">ISMO</a>
                     </div>
                 </div>
                 <div className="w-1/5">
@@ -59,7 +59,7 @@ const Footer = () => {
                 </div>
                 <div className="w-1/5 text-center">
                     <br />
-                  <Link href="/contact" className="uppercase text-xl font-semibold border-[3px] rounded-lg border-white py-4 px-3 w-[214.34px] ">contactez-nous</Link>
+                  <Link href="/contact" className="uppercase text-xl font-semibold border-[3px] rounded-lg border-white py-4 px-3 w-[214.34px]">contactez-nous</Link>
                 </div>
             </div>
             <div>

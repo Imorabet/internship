@@ -12,7 +12,9 @@ class Filiere extends Model
         'nom',
     ];
     public $timestamps = false;
-    public function niveau(){
-        return $this->hasMany(Niveau::class,'id_niveaux');
+
+    public function niveaux()
+    {
+        return $this->belongsToMany(Niveau::class, 'niveaux_filieres', 'id_filieres', 'id_niveaux');
     }
 }

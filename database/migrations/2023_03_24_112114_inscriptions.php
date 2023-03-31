@@ -19,6 +19,8 @@ return new class extends Migration
             $table->year('annee_scolaire')->default(now()->format('Y'));
             $table->integer('id_niveaux');
             $table->foreign('id_niveaux')->references('id')->on('niveaux')->onDelete('cascade');
+            $table->unsignedBigInteger('id_filieres');
+            $table->foreign('id_filieres')->references('id')->on('filieres')->onDelete('cascade');
         });
     }
 

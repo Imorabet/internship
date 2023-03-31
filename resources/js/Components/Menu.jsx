@@ -12,25 +12,25 @@ export default function Menu({ className = '', ...props }) {
             <div className="flex justify-center p-2 gap-20 mx-[12rem] ">
                 <Link
                     href="/"
-                    className="font-semibold text-xl text-center uppercase text-white "
+                    className="font-semibold text-xl text-center uppercase text-white duration-300 hover:scale-105 hover:border-b-4 border-white-400"
                 >
                     Acceuil
                 </Link>
                 <Link
                     href="#a-propos"
-                    className="font-semibold text-xl text-center uppercase text-white"
+                    className="font-semibold text-xl text-center uppercase text-white duration-300 hover:scale-105 hover:border-b-4 border-white-400"
                 >
                     A propos
                 </Link>
                 <Link
                     href="#filieres"
-                    className="font-semibold text-xl text-center uppercase text-white "
+                    className="font-semibold text-xl text-center uppercase text-white duration-300 hover:scale-105 hover:border-b-4 border-white-400 "
                 >
                     Filieres
                 </Link>
                 <Link
                     href="/contact"
-                    className="font-semibold text-xl text-center uppercase text-white "
+                    className="font-semibold text-xl text-center uppercase text-white duration-300 hover:scale-105 hover:border-b-4 border-white-400 "
                 >
                     contact
                 </Link>

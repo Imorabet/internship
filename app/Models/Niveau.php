@@ -10,11 +10,13 @@ class Niveau extends Model
     use HasFactory;
     protected $fillable=[
         'nom',
-        'id_filieres',
     ];
+
     public $timestamps = false;
-    public function niveau(){
-        return $this->hasMany(Niveau::class,'id_niveaux');
+
+    public function filieres()
+    {
+        return $this->belongsToMany(Filiere::class, 'niveaux_filieres', 'id_niveaux', 'id_filieres');
     }
 
 }

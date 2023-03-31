@@ -24,7 +24,7 @@ class CheckRole
                 return $next($request);
             }
         }
-        print_r($roles)  ;
         abort(403, 'Unauthorized '.$role);
+        return redirect('/login');
     }
 }

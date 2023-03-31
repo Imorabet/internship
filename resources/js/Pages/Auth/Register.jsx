@@ -5,10 +5,15 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
 
+
 export default function Register() {
-    const [filiereOptions, setFiliereOptions] = useState([]);
+    const [filieres, setFilieres] = useState([]);
+    const [selectedNiveauId, setSelectedNiveauId] = useState();
+
     const [niveauOptions, setNiveauOptions] = useState([]);
-    const [maxDate, setMaxDate] = useState(new Date().toISOString().split("T")[0]);
+    const [maxDate, setMaxDate] = useState(
+        new Date().toISOString().split("T")[0]
+    );
     const { data, setData, post, processing, errors, reset } = useForm({
         nom: "",
         prenom: "",
@@ -27,9 +32,6 @@ export default function Register() {
     }, []);
 
     useEffect(() => {
-        fetch("/filieres")
-            .then((response) => response.json())
-            .then((data) => setFiliereOptions(data.filiereOptions));
         fetch("/niveaux").then((response) =>
             response.json().then((data) => setNiveauOptions(data.niveauOptions))
         );
@@ -42,7 +44,15 @@ export default function Register() {
                 ? event.target.checked
                 : event.target.value
         );
-    };
+        if (event.target.name === "niveau") {
+            setSelectedNiveauId(event.target.value);
+            fetch(`/filieres/${event.target.value}`)
+            .then((response) =>response.json().then((data) => setFilieres(data.filieres))
+            .catch(error => console.log(error.message))
+
+        );
+        console.log(filieres)
+    }}
 
     const submit = (e) => {
         e.preventDefault();
@@ -52,7 +62,7 @@ export default function Register() {
 
     return (
         <GuestLayout>
-            <Head title="S'INSCRIRE" />
+            <Head title="ISMO - S'inscrire" />
 
             <form onSubmit={submit}>
                 <h1 className="text-center py-3 uppercase font-semibold text-[#003366] text-2xl">
@@ -133,7 +143,9 @@ export default function Register() {
                         onChange={handleOnChange}
                         required
                     >
-                        <option value="" disabled>Niveau</option>
+                        <option value="" disabled>
+                            Niveau
+                        </option>
                         {niveauOptions.map((option) => (
                             <option key={option.id} value={option.id}>
                                 {option.nom}
@@ -148,22 +160,14 @@ export default function Register() {
                         required
                         className="w-3/4 border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm "
                     >
-                        <option value="">Choisissez filiere</option>
-                        {filiereOptions.map((option) => {
-                            const niveau = niveauOptions.find(
-                                (niveau) => niveau.id==data.niveau
-                                
-                            );
-                            
-                            if (niveau && niveau.id_filieres === option.id) {
-                                return (
-                                    <option key={option.id} value={option.id}>
-                                        {option.nom}
-                                    </option>
-                                );
-                            }
-                            else console.log('not khadama');
-                        })}
+                        <option value="" disabled>
+                            Choisissez filiere
+                        </option>
+                        {filieres?.map((filiere) => (
+                            <option key={filiere.id} value={filiere.id}>
+                                {filiere.nom}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <div className="mt-4">

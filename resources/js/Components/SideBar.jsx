@@ -12,7 +12,7 @@ export default function SideBar(){
         <div className="flex h-screen flex-col justify-between pt-2 pb-6">
             <div>
                 <div className="w-max p-2.5">
-                    <Link href="/">
+                    <Link href="/dashboard/admin">
                         <AiFillHome className="text-lg text-white mx-1" />
                     </Link>
                 </div>

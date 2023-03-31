@@ -34,4 +34,16 @@ class StagiaireController extends Controller
         $stagiaire->delete();
         return redirect()->back();
     }
+    public function updateStatut(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'statut' => 'required|boolean',
+        ]);
+
+        $stagiaire = Stagiaire::findOrFail($id);
+        $stagiaire->statut = $validated['statut'];
+        $stagiaire->save();
+
+        return redirect()->back();
+    }
 }

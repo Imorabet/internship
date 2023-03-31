@@ -23,6 +23,10 @@ class Inscription extends Model
     {
         return $this->belongsTo(Niveau::class, 'id_niveaux');
     }
+    public function filiere()
+    {
+        return $this->belongsTo(Filiere::class, 'id_filieres');
+    }
     public function classes()
     {
         return $this->belongsToMany(Classe::class, 'inscription_classes', 'id_classes');

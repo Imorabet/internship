@@ -3,42 +3,71 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import SideBar from "@/Components/SideBar";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
+import ReactPaginate from "react-paginate";
 
 export default function ListStagiare(props) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const [niveauOptions, setNiveauOptions] = useState([]);
+    const [filieres,setFilieres]=useState([])
+    const [pagination, setPagination] = useState({
+        currentPage: 0,
+        itemsPerPage: 4,
+    });
 
     const {
         data,
         setData,
         delete: destroy,
+        put,
         processing,
-    } = useForm({
-        idd: '',
-    });
+    } = useForm({ statut: 1, stagiaires: props.stagiaires });
 
+    const updateStatut = (id, newStatut) => {
+        put(route("stagiaire.update", id), {
+            statut: newStatut,
+            preserveScroll: true,
+            onSuccess: () => {
+                setData((prevData) => ({
+                    ...prevData,
+                    stagiaires: prevData.stagiaires.map((stagiaire) =>
+                        stagiaire.id === id
+                            ? { ...stagiaire, statut: newStatut }
+                            : stagiaire
+                    ),
+                }));
+            },
+            onError: () => {
+                console.log("it doesnttt");
+            },
+        });
+    };
     const confirmUserDeletion = (id) => {
         setConfirmingUserDeletion(true);
-        setData({ id: id }); // set the id to the `data` object in `useForm` hook
+        setData({ id: id });
     };
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios("/niveaux");
             setNiveauOptions(response.data.niveauOptions);
         };
+        const fetchData1 = async () => {
+            const response = await axios("/filieres");
+            setFilieres(response.data.filieres);
+        };
 
         fetchData();
+        fetchData1();
     }, []);
 
     async function deleteUser(e) {
         e.preventDefault();
-        destroy(route('stagiaire.destroy',data.id), {
+        destroy(route("stagiaire.destroy", data.id), {
             preserveScroll: true,
-            onSuccess: () => closeModal()
+            onSuccess: () => closeModal(),
         });
         closeModal();
     }
@@ -46,6 +75,15 @@ export default function ListStagiare(props) {
     const closeModal = () => {
         setConfirmingUserDeletion(false);
     };
+    const handlePageClick = (data) => {
+        setPagination({
+            ...pagination,
+            currentPage: data.selected,
+        });
+    };
+    const startIndex = pagination.currentPage * pagination.itemsPerPage;
+    const endIndex = startIndex + pagination.itemsPerPage;
+    const visibleStagiaires = props.stagiaires.slice(startIndex, endIndex);
 
     const formatDate = (dateString) => {
         const options = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -56,33 +94,19 @@ export default function ListStagiare(props) {
     return (
         <AuthenticatedLayout auth={props.auth} errors={props.errors}>
             <Head title="ISMO - Administrateur" />
-            <div className="flex gap-2">
+            <div className="flex gap-2 h-screen">
                 <SideBar />
-                <p>Bienvenue,</p>
-
-                {console.log(usePage().props)}
-
-                <div className="xl:w-[75%] md:w-8/12 mb-12 md:mb-0 px-2 mx-2 mt-24">
+                {console.log(props)}
+                <div className="xl:w-[78%] md:w-8/12 mb-12 md:mb-0 px-2 mx-4 mt-24">
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
                         <div className="rounded-t mb-0 px-4 py-3 border-0">
                             <div className="flex flex-wrap items-center">
-                                <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-                                    <h3 className="font-semibold text-base text-gray-700">
-                                        Nouvelles inscriptions
-                                    </h3>
-                                </div>
-                                <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                                    <button
-                                        className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                        type="button"
-                                    >
-                                        See all
-                                    </button>
-                                </div>
+                                <h3 className="font-semibold text-base text-gray-700 relative w-full px-4 max-w-full flex-grow flex-1">
+                                    Nouvelles inscriptions
+                                </h3>
                             </div>
                         </div>
-
-                        <div className="block w-full overflow-x-auto">
+                        <div className="block w-full overflow-x-auto overflow-y-auto">
                             <table className="items-center bg-transparent w-full border-collapse ">
                                 <thead>
                                     <tr>
@@ -121,9 +145,9 @@ export default function ListStagiare(props) {
                                             </td>
                                         </tr>
                                     ) : (
-                                        props.stagiaires.map((stagiaire) => (
+                                        visibleStagiaires.map((stagiaire) => (
                                             <tr key={stagiaire.id}>
-                                                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-gray-700 ">
+                                                <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left capitalize text-gray-700 ">
                                                     {stagiaire.nom}{" "}
                                                     {stagiaire.prenom}
                                                 </th>
@@ -139,23 +163,59 @@ export default function ListStagiare(props) {
                                                     )}
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                    filiere
+                                                {filieres.length === 0
+                                                        ? "Pas de filiere"
+                                                        : filieres.find(
+                                                              (filiere) =>
+                                                                  filiere.id ===
+                                                                  stagiaire
+                                                                      .inscription
+                                                                      .id_filieres
+                                                          )?.nom ||
+                                                          "Pas de filiere"}
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                    {niveauOptions.length === undefined
-                                                        ? "N/A"
+                                                    {niveauOptions.length === 0
+                                                        ? "Pas de niveau"
                                                         : niveauOptions.find(
                                                               (niveau) =>
                                                                   niveau.id ===
                                                                   stagiaire
                                                                       .inscription
                                                                       .id_niveaux
-                                                          )?.nom || "N/A"}
+                                                          )?.nom ||
+                                                          "Pas de niveau"}
                                                 </td>
                                                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                    {stagiaire.statut}
+                                                    <select
+                                                        className="text-sm border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm"
+                                                        value={stagiaire.statut}
+                                                        onChange={(e) => {
+                                                            setData(
+                                                                "statut",
+                                                                parseInt(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            );
+                                                            updateStatut(
+                                                                stagiaire.id,
+                                                                parseInt(
+                                                                    data.statut
+                                                                )
+                                                            );
+                                                        }}
+                                                    >
+                                                        <option value={0}>
+                                                            {" "}
+                                                            Non admis{" "}
+                                                        </option>
+                                                        <option value={1}>
+                                                            admis{" "}
+                                                        </option>
+                                                    </select>
                                                 </td>
-                                                <td className="border-t-0 px-6 align-middle border-l-0 border-r-0  whitespace-nowrap p-4">
+                                                <td className="Fborder-t-0 px-6 align-middle border-l-0 border-r-0  whitespace-nowrap p-4">
                                                     <button
                                                         onClick={() =>
                                                             confirmUserDeletion(
@@ -163,7 +223,7 @@ export default function ListStagiare(props) {
                                                             )
                                                         }
                                                     >
-                                                        <AiOutlineDelete className="text-xl hover:text-[#003366]" />
+                                                        <AiOutlineDelete className="text-xl text-gray-500 hover:text-[#003366]" />
                                                     </button>
                                                     <Modal
                                                         show={
@@ -198,9 +258,13 @@ export default function ListStagiare(props) {
                                                                 >
                                                                     Annuler
                                                                 </SecondaryButton>
-                                    
 
-                                                                <DangerButton className="ml-3"disabled={processing}>
+                                                                <DangerButton
+                                                                    className="ml-3"
+                                                                    disabled={
+                                                                        processing
+                                                                    }
+                                                                >
                                                                     Supprimer
                                                                 </DangerButton>
                                                             </div>
@@ -214,6 +278,25 @@ export default function ListStagiare(props) {
                             </table>
                         </div>
                     </div>
+                        <ReactPaginate
+                            previousLabel={"<"}
+                            nextLabel={">"}
+                            breakLabel={"..."}
+                            breakClassName={"break-me"}
+                            pageCount={Math.ceil(
+                                props.stagiaires.length /
+                                    pagination.itemsPerPage
+                            )}
+                            marginPagesDisplayed={2}
+                            pageRangeDisplayed={5}
+                            onPageChange={handlePageClick}
+                            previousLinkClassName={'mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-light-300'}
+                            nextLinkClassName={'mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-light-300'}
+                            containerClassName={"flex  w-full justify-center rounded-lg "}
+                            pageLinkClassName={'mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-slate-100 '}
+                            activeLinkClassName={"mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-blue-800 p-0 text-sm text-grey-400 shadow-md transition duration-150 ease-in-out hover:text-blue-900"}
+                            disabledLinkClassName={'text-gray-400'}
+                        />
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -33,6 +33,7 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return Inertia::render('Contact');
 });
+Route::get('/filieres/{id}', [FiliereController::class, 'getFilieresByNiveau']);
 Route::get('/filieres', [FiliereController::class, 'getFilieres']);
 Route::get('/niveaux', [NiveauController::class, 'getNiveaux']);
 
@@ -59,6 +60,8 @@ Route::get('/dashboard/admin', function () {
 
 Route::get('/stagiaires', [StagiaireController::class, 'getNewInscriptions'])->middleware(['auth', 'role:administrateur']);
 Route::delete('/stagiaires/{stagiaire}',[StagiaireController::class, 'destroy'] )->middleware(['auth', 'role:administrateur'])->name('stagiaire.destroy');
+Route::put('/stagiaires/{id}', [StagiaireController::class, 'updateStatut'])->middleware(['auth', 'role:administrateur'])->name('stagiaire.update');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

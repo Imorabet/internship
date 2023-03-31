@@ -50,6 +50,7 @@ class RegisteredUserController extends Controller
 
             $inscription = Inscription::create([
                 'id_niveaux' => $request->niveau,
+                'id_filieres'=>$request->filiere,
                 'date_inscription' => now(),
                 'annee_scolaire' => now()->format('Y'),
             ]);
@@ -67,7 +68,6 @@ class RegisteredUserController extends Controller
 
             event(new Registered($user));
 
-            Auth::login($user);
             DB::commit();
             return redirect('/login');
         } catch (ValidationException $e) {
