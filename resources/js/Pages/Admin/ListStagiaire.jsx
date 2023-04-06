@@ -9,7 +9,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 
-export default function ListStagiare(props) {
+export default function ListStagiaire(props) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const [niveauOptions, setNiveauOptions] = useState([]);
     const [filieres,setFilieres]=useState([])

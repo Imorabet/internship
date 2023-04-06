@@ -1,0 +1,209 @@
+import SideBar from "@/Components/SideBar";
+import { Head, useForm } from "@inertiajs/react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import ReactPaginate from "react-paginate";
+import Modal from "@/Components/Modal";
+import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import SecondaryButton from "@/Components/SecondaryButton";
+import DangerButton from "@/Components/DangerButton";
+import { useState } from "react";
+
+export default function ListFormateur(props) {
+    const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
+    const [pagination, setPagination] = useState({
+        currentPage: 0,
+        itemsPerPage: 4,
+    });
+    const {
+        data,
+        setData,
+        delete: destroy,
+        processing,
+    } = useForm({ formateurs: props.formateurs });
+
+    const confirmUserDeletion = (id) => {
+        setConfirmingUserDeletion(true);
+        setData({ id: id });
+    };
+    async function deleteUser(e) {
+        e.preventDefault();
+        destroy(route("prof.destroy", data.id), {
+            preserveScroll: true,
+            onSuccess: () => closeModal(),
+        });
+        closeModal();
+    }
+    const closeModal = () => {
+        setConfirmingUserDeletion(false);
+    };
+    const handlePageClick = (data) => {
+        setPagination({
+            ...pagination,
+            currentPage: data.selected,
+        });
+    };
+    const startIndex = pagination.currentPage * pagination.itemsPerPage;
+    const endIndex = startIndex + pagination.itemsPerPage;
+    const visibleFormateurs = props.formateurs.slice(startIndex, endIndex);
+
+    return (
+        <AuthenticatedLayout auth={props.auth} errors={props.errors}>
+            <Head title="ISMO - Administrateur" />
+            <div className="flex gap-2 h-screen">
+                <SideBar />
+                {console.log(props)}
+                <div className="xl:w-[78%] md:w-8/12 mb-12 md:mb-0 px-2 mx-4 mt-24">
+                    <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
+                        <div className="rounded-t mb-0 px-4 py-3 border-0">
+                            <div className="flex flex-wrap items-center">
+                                <h3 className="font-semibold text-base text-gray-700 relative w-full px-4 max-w-full flex-grow flex-1">
+                                    Les formateurs
+                                </h3>
+                                <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+                                    <a
+                                        class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        href="/formateurs/ajout"
+                                    >
+                                       Ajouter
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="block w-full overflow-x-auto overflow-y-auto">
+                            <table className="items-center bg-transparent w-full border-collapse ">
+                                <thead>
+                                    <tr>
+                                        <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                            Nom et Prenom
+                                        </th>
+                                        <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                            module
+                                        </th>
+                                        <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                            classes
+                                        </th>
+                                        <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {props.formateurs.length === 0 ? (
+                                        <tr className="text-center">
+                                            <td
+                                                colSpan={7}
+                                                className="p-2 text-gray-500 font-normal"
+                                            >
+                                                Aucun professeur trouvé :(
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                       visibleFormateurs.map((formateur)=>(
+                                        <tr>
+                                            <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left capitalize text-gray-700 ">
+                                            {formateur.nom} {formateur.prenom}
+                                            </th>
+                                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"></td>
+                                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"></td>
+
+                                            <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 flex gap-2  whitespace-nowrap p-4">
+                                                <button>
+                                                    <AiOutlineEdit className="text-xl text-gray-500 hover:text-[#003366]" />
+                                                </button>
+                                                <button
+                                                onClick={() =>
+                                                    confirmUserDeletion(
+                                                        formateur.id
+                                                    )
+                                                }
+                                                >
+                                                    <AiOutlineDelete className="text-xl text-gray-500 hover:text-[#003366]" />
+                                                </button>
+                                                <Modal
+                                                        show={
+                                                            confirmingUserDeletion
+                                                        }
+                                                        onClose={closeModal}
+                                                    >
+                                                        <form
+                                                            onSubmit={
+                                                                deleteUser
+                                                            }
+                                                            className="p-6"
+                                                        >
+                                                            <h2 className="text-lg font-medium text-gray-900">
+                                                                Êtes-vous sûr?
+                                                            </h2>
+
+                                                            <p className="mt-1 text-sm text-gray-600">
+                                                                Une fois
+                                                                supprimé, vous
+                                                                ne pourrez plus
+                                                                récupérer les
+                                                                infos de ce
+                                                                formateur !
+                                                            </p>
+
+                                                            <div className="mt-6 flex justify-end">
+                                                                <SecondaryButton
+                                                                    onClick={
+                                                                        closeModal
+                                                                    }
+                                                                >
+                                                                    Annuler
+                                                                </SecondaryButton>
+
+                                                                <DangerButton
+                                                                    className="ml-3"
+                                                                    disabled={
+                                                                        processing
+                                                                    }
+                                                                >
+                                                                    Supprimer
+                                                                </DangerButton>
+                                                            </div>
+                                                        </form>
+                                                    </Modal>
+                                            </td>
+                                        </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <ReactPaginate
+                        previousLabel={"<"}
+                        nextLabel={">"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={Math.ceil(
+                            props.formateurs.length / pagination.itemsPerPage
+                        )}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={handlePageClick}
+                        previousLinkClassName={
+                            "mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-slate-100"
+                        }
+                        nextLinkClassName={
+                            "mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-slate-100"
+                        }
+                        containerClassName={
+                            "flex  w-full justify-center rounded-lg "
+                        }
+                        pageLinkClassName={
+                            "mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-slate-100 "
+                        }
+                        activeLinkClassName={
+                            "mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-blue-900 p-0 text-sm text-white shadow-md transition duration-150 ease-in-out hover:text-blue-700 hover:bg-blue-gray-500"
+                        }
+                        disabledLinkClassName={"text-gray-400"}
+                    />
+                </div>
+            </div>
+        </AuthenticatedLayout>
+    );
+}

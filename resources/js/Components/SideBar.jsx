@@ -4,6 +4,7 @@ import { BiGitBranch } from "react-icons/bi";
 import { SiGoogleclassroom } from "react-icons/si";
 import { AiFillHome } from "react-icons/ai";
 import { Link } from "@inertiajs/react";
+import {RiAdminFill} from 'react-icons/ri';
 import { FiLogOut } from "react-icons/fi";
 
 export default function SideBar(){
@@ -17,7 +18,7 @@ export default function SideBar(){
                     </Link>
                 </div>
                 <ul className="mt-6 space-y-2 tracking-wide">
-                    <li className="min-w-max hover:bg-[#2d3f80]">
+                    <li className="min-w-max hover:bg-[#5066c9]">
                         <Link
                             href="/stagiaires"
                             aria-label="dashboard"
@@ -32,11 +33,21 @@ export default function SideBar(){
                     <li className="min-w-max hover:bg-[#5066c9]">
                         
                         <Link
-                            href="#"
+                            href="/formateurs"
                             className="bg group flex items-center space-x-4 rounded-full px-4 py-3 text-white"
                         >
                             <FaChalkboardTeacher className="text-lg" />
                             <span className="">Formateur</span>
+                        </Link>
+                    </li>
+                    <li className="min-w-max hover:bg-[#5066c9]">
+                        
+                        <Link
+                            href='/admins'
+                            className="bg group flex items-center space-x-4 rounded-full px-4 py-3 text-white"
+                        >
+                            <RiAdminFill className="text-lg" />
+                            <span className="">Administrateur</span>
                         </Link>
                     </li>
                     <li className="min-w-max hover:bg-[#5066c9]">
@@ -77,7 +88,7 @@ export default function SideBar(){
                 >
                     <FiLogOut className="text-lg" />
 
-                    <span className="">Deconnecter</span>
+                    <span className="">Déconnecter</span>
                 </Link>
             </div>
         </div>
