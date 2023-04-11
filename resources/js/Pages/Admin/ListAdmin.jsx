@@ -209,8 +209,8 @@ export default function ListAdmin(props) {
                             "mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-slate-100 "
                         }
                         activeLinkClassName={
-                            "mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-blue-800 p-0 text-sm text-grey-400 shadow-md transition duration-150 ease-in-out hover:text-blue-900"
-                        }
+                            "mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-blue-900 p-0 text-sm text-slate-200 shadow-md transition duration-150 ease-in-out "
+ }
                         disabledLinkClassName={"text-gray-400"}
                     />
                 </div>

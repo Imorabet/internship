@@ -12,6 +12,7 @@ class Module extends Model
         'nom',
         'masse_horaire',
         'id_niveaux',
+        'id_filieres'
 
     ];
     public $timestamps = false;
@@ -23,6 +24,9 @@ class Module extends Model
     }
     public function niveau(){
         return $this->belongsTo(Niveau::class,'id_niveaux');
+    }
+    public function filiere(){
+        return $this->belongsTo(Filiere::class,'id_filieres');
     }
     public function examen(){
         return $this->hasMany(Examen::class,'id_examens');
