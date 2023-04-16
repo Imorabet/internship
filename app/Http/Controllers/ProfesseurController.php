@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classe;
+use App\Models\Module;
 use App\Models\Professeur;
 use App\Models\User;
 use Dotenv\Exception\ValidationException;
@@ -23,7 +25,7 @@ class ProfesseurController extends Controller
     }
     public function getFormateurs()
     {
-        $formateurs = Professeur::all();
+        $formateurs = Professeur::with('classes', 'modules')->get();
         return Inertia::render('Admin/ListFormateur', [
             'formateurs' => $formateurs,
         ]);
@@ -59,11 +61,21 @@ class ProfesseurController extends Controller
             ]);
             $prof->save();
             DB::commit();
-            return redirect('/formateurs');
+            return redirect('/professeurs');
         } catch (ValidationException $e) {
             DB::rollback();
             echo "meskina";
             return redirect()->back()->withErrors($e)->withInput();
         }
     }
+    public function assign(Request $request)
+    {
+        $prof = Professeur::find($request->prof);
+        $prof->modules()->attach($request->module, [
+            'id_classes' => $request->class,'id_professeurs'=>$request->prof
+        ]);
+    
+        return back();
+    }
+    
 }

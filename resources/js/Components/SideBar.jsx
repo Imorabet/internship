@@ -6,14 +6,32 @@ import { AiFillHome } from "react-icons/ai";
 import { Link } from "@inertiajs/react";
 import { RiAdminFill } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SideBar() {
     const [isOpen, setIsOpen] = useState(false);
+    const [newRegistrations, setNewRegistrations] = useState(0);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
+    // useEffect(() => {
+    //     async function fetchNewRegistrations() {
+    //       try {
+    //         const response = await fetch('/new-eleves');
+    //         const data = await response.json();
+    //         setNewRegistrations(data.count);
+    //       } catch (error) {
+    //         console.error(error);
+    //       }
+    //     }
+    //     fetchNewRegistrations();
+    //   }, []);
+      useEffect(() => {
+        fetch("/new-eleves").then((response) =>
+            response.json().then((data) => setNewRegistrations(data.count))
+        );
+    }, []);
 
     return (
         <div className="sidebar min-h-screen w-[3.27rem] overflow-hidden border-r hover:w-56 bg-[#003366] hover:shadow-lg">
@@ -27,28 +45,28 @@ export default function SideBar() {
                     <ul className="mt-6 space-y-2 tracking-wide">
                         <li className="min-w-max hover:bg-[#5066c9]">
                             <Link
-                                href="/stagiaires"
+                                href="/eleves"
                                 aria-label="dashboard"
-                                className="relative flex items-center space-x-4 bg-gradient-to-r  px-4 py-3 text-white"
+                                className="relative flex items-center bg-gradient-to-r gap-4 px-4 py-3 text-white"
                             >
                                 <FaUserGraduate className="text-lg" />
                                 <span className="-mr-1 font-medium">
-                                    Stagiaire
-                                </span>
+                                Élève                                </span>
+                                <div className="py-1 ml-10 px-3 bg-gray-300 rounded text-[#003366] text-xs">{newRegistrations}</div>
                             </Link>
                         </li>
-                        {/* <li className="min-w-max hover:bg-[#5066c9]">
+                        <li className="min-w-max hover:bg-[#5066c9]">
                         
                         <Link
-                            href="/formateurs"
+                            href="/professeurs"
                             className="bg group flex items-center space-x-4 rounded-full px-4 py-3 text-white"
                         >
                             <FaChalkboardTeacher className="text-lg" />
-                            <span className="">Formateur</span>
+                            <span className="">Professeur</span>
                                                 
                         </Link>
-                    </li> */}
-                        <li className="min-w-max ">
+                    </li>
+                        {/* <li className="min-w-max ">
                             <button
                                 onClick={toggleDropdown}
                                 className="bg group flex items-center space-x-4 rounded-full px-4 py-3 text-white"
@@ -79,14 +97,14 @@ export default function SideBar() {
                                 } py-2 space-y-2`}
                             >
                                 <Link
-                                        href="/formateurs"
+                                        href="/professeurs"
                                         class="flex items-center w-full p-2 text-base font-normal text-slate-200 transition duration-75 group pl-11 hover:bg-[#5066c9]"
                                     >
                                         Afficher
                                   
                                 </Link>
                             </ul>
-                        </li>
+                        </li> */}
                         <li className="min-w-max hover:bg-[#5066c9]">
                             <Link
                                 href="/admins"
@@ -116,7 +134,7 @@ export default function SideBar() {
                         </li>
                         <li className="min-w-max hover:bg-[#5066c9]">
                             <Link
-                                href="#"
+                                href="/classes"
                                 className="group flex items-center space-x-4 rounded-md px-4 py-3 text-white"
                             >
                                 <SiGoogleclassroom className="text-lg" />

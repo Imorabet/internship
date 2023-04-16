@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inscription;
 use App\Models\Stagiaire;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -23,6 +25,12 @@ class StagiaireController extends Controller
         return Inertia::render('Admin/ListStagiaire', [
             'stagiaires' => $stagiaires,
         ]);
+    }
+    public function countNewRegistrations()
+    {
+        $count = Inscription::whereDate('created_at', Carbon::today())->count();
+        dd($count);
+        return response()->json(['count' => $count]);
     }
     public function destroy(Stagiaire $stagiaire)
     {

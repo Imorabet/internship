@@ -97,7 +97,7 @@ export default function ListStagiaire(props) {
             <div className="flex gap-2 h-screen">
                 <SideBar />
                 {console.log(props)}
-                <div className="xl:w-[78%] md:w-8/12 mb-12 md:mb-0 px-2 mx-4 mt-24">
+                <div className="xl:w-fit md:w-8/12 mb-12 md:mb-0 px-2 mx-4 mt-24">
                     <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
                         <div className="rounded-t mb-0 px-4 py-3 border-0">
                             <div className="flex flex-wrap items-center">

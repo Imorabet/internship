@@ -19,12 +19,15 @@ class Professeur extends Model
     protected $casts=[
         'date_naissance'=>'date',
     ];
-    public function module(){
-        return $this->belongsToMany(Module::class,'affectations','id_modules');
+    public function modules(){
+        return $this->belongsToMany(Module::class,'affectations','id_professeurs', 'id_modules')
+        ->withPivot('id_classes', 'id_professeurs');
     }
-    public function class(){
-        return $this->belongsToMany(Classe::class,'affectations','id_classes');
-    }
+    public function classes()
+{
+    return $this->belongsToMany(Classe::class, 'affectations', 'id_professeurs', 'id_classes')
+    ->withPivot('id_modules', 'id_professeurs');;
+}
     public function user()
     {
         return $this->belongsTo(User::class,'id_users');

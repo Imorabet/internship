@@ -1,36 +1,38 @@
 import SideBar from "@/Components/SideBar";
 import { Head, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import ReactPaginate from "react-paginate";
-import Modal from "@/Components/Modal";
+import { useEffect, useState } from "react";
+import TextInput from "@/Components/TextInput";
+import PrimaryButton from "@/Components/PrimaryButton";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import Modal from "@/Components/Modal";
 import SecondaryButton from "@/Components/SecondaryButton";
 import DangerButton from "@/Components/DangerButton";
-import { useEffect, useState } from "react";
-import PrimaryButton from "@/Components/PrimaryButton";
+import ReactPaginate from "react-paginate";
 
-export default function ListFormateur(props) {
+export default function ListClasse(props) {
     const [niveauOptions, setNiveauOptions] = useState([]);
     const [filieres, setFilieres] = useState([]);
-    const [modules, setModules] = useState([]);
-    const [classes, setClasses] = useState([]);
+    const [classes,setClasses]=useState([])
     const [selectedNiveauId, setSelectedNiveauId] = useState();
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const [pagination, setPagination] = useState({
         currentPage: 0,
-        itemsPerPage: 3,
+        itemsPerPage: 2,
     });
     const {
         data,
         setData,
         delete: destroy,
         post,
+        reset,
         processing,
     } = useForm({
-        formateurs: props.formateurs,
-        prof: "",
-        module: "",
-        class: "",
+        classes:props.classes,
+        niveau: "",
+        filiere: "",
+        nom: "",
+        class:'',
     });
     useEffect(() => {
         fetch("/niveaux").then((response) =>
@@ -53,11 +55,10 @@ export default function ListFormateur(props) {
                     .catch((error) => console.log(error.message))
             );
         } else if (event.target.name === "filiere") {
-            fetch(`/modules-classes/${selectedNiveauId}/${event.target.value}`)
+            fetch(`/classes/${selectedNiveauId}/${event.target.value}`)
                 .then((response) => response.json())
                 .then((data) => {
                     // update the module and class options
-                    setModules(data.modules);
                     setClasses(data.classes);
                 })
                 .catch((error) => console.log(error.message));
@@ -67,9 +68,9 @@ export default function ListFormateur(props) {
         setConfirmingUserDeletion(true);
         setData({ id: id });
     };
-    async function deleteUser(e) {
+    async function deleteclass(e) {
         e.preventDefault();
-        destroy(route("prof.destroy", data.id), {
+        destroy(route("classe.destroy", data.id), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
         });
@@ -87,49 +88,27 @@ export default function ListFormateur(props) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("prof.assign"));
+        post(route("class.add"));
     };
     console.log(props);
     const startIndex = pagination.currentPage * pagination.itemsPerPage;
     const endIndex = startIndex + pagination.itemsPerPage;
-    const visibleFormateurs = props.formateurs.slice(startIndex, endIndex);
+    const visibleClasse = props.classes.slice(startIndex, endIndex);
 
     return (
         <AuthenticatedLayout auth={props.auth} errors={props.errors}>
             <Head title="ISMO - Administrateur" />
             <div className="flex gap-2 h-screen">
                 <SideBar />
-                <div className="flex flex-col w-full justify-center">
-                    <form
-                        onSubmit={submit}
-                        class="xl:w-[80%]  mx-6 p-4 bg-white rounded-md shadow my-4"
+                <div className="flex flex-col w-[43%] justify-center">
+                    <form onSubmit={submit}
+                        class="xl:w-[98%] md:w-8/12 mx-6 p-4 bg-white rounded-md shadow my-4"
                     >
                         <h1 class="text-md font-medium mb-1">
-                            Attribuer des matières et des classes à un
-                            professeur
+                            Ajouter une classe
                         </h1>
 
-                        <div class="flex items-center gap-3 py-4">
-                            <select
-                                className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
-                                name="prof"
-                                id="prof"
-                                value={data.prof}
-                                onChange={handleOnChange}
-                                required
-                            >
-                                <option value="" disabled>
-                                    Professeur{" "}
-                                </option>
-                                {props.formateurs.map((formateur) => (
-                                    <option
-                                        key={formateur.id}
-                                        value={formateur.id}
-                                    >
-                                        {formateur.nom} {formateur.prenom}
-                                    </option>
-                                ))}
-                            </select>
+                        <div class="flex flex-col  gap-3 py-4">
                             <select
                                 className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
                                 name="niveau"
@@ -162,64 +141,30 @@ export default function ListFormateur(props) {
                                     </option>
                                 ))}
                             </select>
-                            <select
-                                className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
-                                name="module"
-                                id="module"
-                                value={data.module}
+                            <TextInput
+                                className="h-9 text-sm"
+                                name="nom"
+                                id="nom"
+                                value={data.nom}
                                 onChange={handleOnChange}
                                 required
-                            >
-                                <option value="" disabled>
-                                    Matière{" "}
-                                </option>
-                                {modules?.map((module) => (
-                                    <option key={module.id} value={module.id}>
-                                        {module.nom}
-                                    </option>
-                                ))}
-                            </select>
-                            <select
-                                className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
-                                name="class"
-                                id="class"
-                                value={data.class}
-                                onChange={handleOnChange}
-                                required
-                            >
-                                <option value="" disabled>
-                                    Classe{" "}
-                                </option>
-                                {classes?.map((classe) => (
-                                    <option key={classe.id} value={classe.id}>
-                                        {classe.nom}
-                                    </option>
-                                ))}
-                            </select>
+                                placeholder="Entrer le nom de classe"
+                            />
                         </div>
                         <div class="border-t-2 pt-3 flex justify-end">
                             <PrimaryButton disabled={processing}>
-                                Confirmer
+                                ajouter
                             </PrimaryButton>
                         </div>
                     </form>
 
-                    <div className="xl:w-[81%] md:w-8/12 mb-1 md:mb-0 px-2 mx-4 mt-1">
+                    <div className="xl:w-[100%] md:w-8/12 mb-1 md:mb-0 px-2 mx-4 mt-1">
                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-4 shadow-lg rounded ">
                             <div className="rounded-t mb-0 px-4 py-3 border-0">
                                 <div className="flex flex-wrap items-center">
                                     <h3 className="font-semibold text-base text-gray-700 relative w-full px-4 max-w-full flex-grow flex-1">
-                                        Les professeurs
+                                        Les classes
                                     </h3>
-                                    <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                                        <a
-                                            className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                            type="button"
-                                            href="/professeurs/ajout"
-                                        >
-                                            Ajouter
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                             <div className="block w-full overflow-x-auto overflow-y-auto">
@@ -227,13 +172,13 @@ export default function ListFormateur(props) {
                                     <thead>
                                         <tr>
                                             <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                                Nom et Prenom
+                                                #
                                             </th>
                                             <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                                module
+                                                classe
                                             </th>
                                             <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                                classes
+                                                niveau
                                             </th>
                                             <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                                                 Action
@@ -242,54 +187,33 @@ export default function ListFormateur(props) {
                                     </thead>
 
                                     <tbody>
-                                        {props.formateurs.length === 0 ? (
+                                        {props.classes.length === 0 ? (
                                             <tr className="text-center">
                                                 <td
-                                                    colSpan={7}
+                                                    colSpan={4}
                                                     className="p-2 text-gray-500 font-normal"
                                                 >
-                                                    Aucun professeur trouvé :(
+                                                    Aucune classe trouvée :(
                                                 </td>
                                             </tr>
                                         ) : (
-                                            visibleFormateurs.map(
-                                                (formateur) => (
-                                                    <tr key={formateur.id}>
+                                            visibleClasse.map(
+                                                (classe, index) => (
+                                                    <tr key={classe.id}>
                                                         <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left capitalize text-gray-700 ">
-                                                            {formateur.nom}{" "}
-                                                            {formateur.prenom}
+                                                            {index + 1}
                                                         </th>
-                                                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                            {formateur
-                                                                .modules[0] ? (
-                                                                <span>
-                                                                    {
-                                                                        formateur
-                                                                            .modules[0]
-                                                                            .nom
-                                                                    }
-                                                                </span>
-                                                            ) : (
-                                                                <span>
-                                                                    Aucun module
-                                                                    attribué
-                                                                </span>
-                                                            )}
+                                                        <td className="capitalize    border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                            {classe.nom}
                                                         </td>
+
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                        {formateur
-                                                                .classes[0] ? (
-                                                                <span>
-                                                                    {
-                                                                        formateur
-                                                                            .classes[0]
-                                                                            .nom
-                                                                    }
-                                                                </span>
-                                                            ) : (
-                                                                <span>
-                                                                   Aucune classe attribuée
-                                                                </span>
+                                                            {niveauOptions.map(
+                                                                (
+                                                                    niveauOption
+                                                                ) =>
+                                                                    classe.id_niveaux ===
+                                                                        niveauOption.id && ( niveauOption.nom )
                                                             )}
                                                         </td>
 
@@ -300,7 +224,7 @@ export default function ListFormateur(props) {
                                                             <button
                                                                 onClick={() =>
                                                                     confirmUserDeletion(
-                                                                        formateur.id
+                                                                        classe.id
                                                                     )
                                                                 }
                                                             >
@@ -316,7 +240,7 @@ export default function ListFormateur(props) {
                                                             >
                                                                 <form
                                                                     onSubmit={
-                                                                        deleteUser
+                                                                        deleteclass
                                                                     }
                                                                     className="p-6"
                                                                 >
@@ -334,9 +258,8 @@ export default function ListFormateur(props) {
                                                                         récupérer
                                                                         les
                                                                         infos de
-                                                                        ce
-                                                                        formateur
-                                                                        !
+                                                                        cette
+                                                                        classe !
                                                                     </p>
 
                                                                     <div className="mt-6 flex justify-end">
@@ -374,7 +297,7 @@ export default function ListFormateur(props) {
                             breakLabel={"..."}
                             breakClassName={"break-me"}
                             pageCount={Math.ceil(
-                                props.formateurs.length /
+                                props.classes.length /
                                     pagination.itemsPerPage
                             )}
                             marginPagesDisplayed={2}
@@ -399,6 +322,73 @@ export default function ListFormateur(props) {
                         />
                     </div>
                 </div>
+                <div class="xl:w-[50%] h-fit mx-6 p-4 bg-white rounded-md shadow my-8"
+                    >
+                        <h1 class="text-md font-medium mb-1">
+                            Ajouter des élèves dans les classes 
+                        </h1>
+
+                        <div class="flex  gap-3 py-4">
+                            <select
+                                className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
+                                name="niveau"
+                                id="niveau"
+                                value={data.niveau}
+                                onChange={handleOnChange}
+                                required
+                            >
+                                <option value="" disabled>
+                                    Niveau{" "}
+                                </option>
+                                {niveauOptions?.map((niveau) => (
+                                    <option key={niveau.id} value={niveau.id}>
+                                        {niveau.nom}
+                                    </option>
+                                ))}
+                            </select>
+                            <select
+                                className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
+                                name="filiere"
+                                id="filiere"
+                                value={data.filiere}
+                                onChange={handleOnChange}
+                                required
+                            >
+                                <option value="">Filiere </option>
+                                {filieres?.map((filiere) => (
+                                    <option key={filiere.id} value={filiere.id}>
+                                        {filiere.nom}
+                                    </option>
+                                ))}
+                            </select>
+                            <select
+                                className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
+                                name="class"
+                                id="class"
+                                value={data.class}
+                                onChange={handleOnChange}
+                                required
+                            >
+                                <option value="">Classe </option>
+                                {classes?.map((classe) => (
+                                    <option key={classe.id} value={classe.id}>
+                                        {classe.nom}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <h1 class="text-sm font-medium mb-1">
+                            Nouveau élèves admis
+                        </h1>
+                        
+
+
+                        <div class="border-t-2 pt-3 flex justify-end">
+                            <PrimaryButton disabled={processing}>
+                                valider
+                            </PrimaryButton>
+                        </div>
+                    </div>
             </div>
         </AuthenticatedLayout>
     );

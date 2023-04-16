@@ -136,7 +136,7 @@ export default function Register() {
                 </div>
                 <div className="flex gap-2 mt-4">
                     <select
-                        className="w-1/4 border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm"
+                        className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm"
                         name="niveau"
                         id="niveau"
                         value={data.niveau}
