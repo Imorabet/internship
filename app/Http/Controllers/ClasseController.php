@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Administrateur;
 use App\Models\Classe;
+use App\Models\Inscription;
+use App\Models\Stagiaire;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,8 +14,10 @@ class ClasseController extends Controller
     public function getClasses()
     {
         $classes = Classe::all();
+        $stagiaires = Stagiaire::where('statut', true)->with('inscription')->get();
         return Inertia::render('Admin/ListClasse', [
             'classes' => $classes,
+            'eleves'=>$stagiaires
         ]);
     }
     public function add(Request $request){
@@ -42,5 +46,14 @@ class ClasseController extends Controller
         return response()->json([
             'classes' => $classes,
         ]);
+    }
+    public function addClassToStudent(Request $request, $inscriptionId)
+    {
+        $classeId = $request->input('id_classe');
+        $inscription = Inscription::findOrFail($inscriptionId);
+        $classe = Classe::findOrFail($classeId);
+        $inscription->classes()->attach($classe);
+    
+        return response()->json(['success' => true]);
     }
 }

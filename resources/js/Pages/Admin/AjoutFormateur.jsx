@@ -41,7 +41,7 @@ export default function AjoutFormateur(props) {
             <Head title="ISMO - Administrateur" />
             <div className="flex gap-2 h-screen">
             <SideBar/>
-            <form className="w-2/4 mx-[5%] my-6" onSubmit={submit}>
+            <form className="xl:w-[43%] h-fit mx-6 p-4 bg-white rounded-md shadow my-8" onSubmit={submit}>
                 <h1 className="text-gray-500  font-medium">Ajouter un nouveau formateur :</h1>
                 <div className="flex gap-2 mt-4">
                     <div className="w-1/2">

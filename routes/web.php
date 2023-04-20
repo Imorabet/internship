@@ -38,7 +38,7 @@ Route::get('/contact', function () {
 Route::get('/filieres/{id}', [FiliereController::class, 'getFilieresByNiveau']);
 Route::get('/filieres', [FiliereController::class, 'getFilieres']);
 Route::get('/niveaux', [NiveauController::class, 'getNiveaux']);
-Route::get('/modules-classes/{niveauId}/{filiereId}',[ModuleController::class,'getModulesAndClasses'] );
+Route::get('/modules-classes/{niveauId}/{filiereId}', [ModuleController::class, 'getModulesAndClasses']);
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
@@ -63,29 +63,35 @@ Route::get('/dashboard/admin', function () {
 #partie du stagiaire
 Route::get('/eleves', [StagiaireController::class, 'getNewInscriptions'])->middleware(['auth', 'role:administrateur']);
 Route::get('/new-eleves', [StagiaireController::class, 'countNewRegistrations'])->middleware(['auth', 'role:administrateur']);
-Route::delete('/eleves/{stagiaire}',[StagiaireController::class, 'destroy'] )->middleware(['auth', 'role:administrateur'])->name('stagiaire.destroy');
+Route::delete('/eleves/{stagiaire}', [StagiaireController::class, 'destroy'])->middleware(['auth', 'role:administrateur'])->name('stagiaire.destroy');
 Route::put('/eleves/{id}', [StagiaireController::class, 'updateStatut'])->middleware(['auth', 'role:administrateur'])->name('stagiaire.update');
 #partie de formateur
-Route::get('/professeurs', [ProfesseurController::class,'getFormateurs'])->middleware(['auth', 'role:administrateur']);
+Route::get('/professeurs', [ProfesseurController::class, 'getFormateurs'])->middleware(['auth', 'role:administrateur']);
 Route::get('/professeurs/ajout', function () {
     return Inertia::render('Admin/AjoutFormateur');
-})->middleware(['auth', 'role:administrateur']  );
-Route::post('/professeurs/ajout',[ProfesseurController::class,'add'])->middleware(['auth', 'role:administrateur'])->name('prof.add');
-Route::delete('/professeurs/{formateur}',[ProfesseurController::class, 'destroy'] )->middleware(['auth', 'role:administrateur'])->name('prof.destroy');
-Route::post('/professeurs/assign',[ProfesseurController::class, 'assign'] )->middleware(['auth', 'role:administrateur'])->name('prof.assign');
+})->middleware(['auth', 'role:administrateur']);
+Route::post('/professeurs/ajout', [ProfesseurController::class, 'add'])->middleware(['auth', 'role:administrateur'])->name('prof.add');
+Route::delete('/professeurs/{formateur}', [ProfesseurController::class, 'destroy'])->middleware(['auth', 'role:administrateur'])->name('prof.destroy');
+Route::post('/professeurs/assign', [ProfesseurController::class, 'assign'])->middleware(['auth', 'role:administrateur'])->name('prof.assign');
 #partie administrateur
-Route::get('/admins', [AdminController::class,'getAdmins'])->middleware(['auth', 'role:administrateur']);
-Route::delete('/admins/{admin}',[adminController::class, 'destroy'] )->middleware(['auth', 'role:administrateur'])->name('admin.destroy');
+Route::get('/admins', [AdminController::class, 'getAdmins'])->middleware(['auth', 'role:administrateur']);
+Route::delete('/admins/{admin}', [adminController::class, 'destroy'])->middleware(['auth', 'role:administrateur'])->name('admin.destroy');
 Route::get('/admins/ajout', function () {
     return Inertia::render('Admin/AjoutAdmin');
-})->middleware(['auth', 'role:administrateur']  );
-Route::post('/admins/ajout',[AdminController::class,'add'])->middleware(['auth', 'role:administrateur'])->name('admin.add');
+})->middleware(['auth', 'role:administrateur']);
+Route::post('/admins/ajout', [AdminController::class, 'add'])->middleware(['auth', 'role:administrateur'])->name('admin.add');
 #partie classe
-Route::get('/classes', [ClasseController::class,'getClasses'])->middleware(['auth', 'role:administrateur']);
-Route::post('/classes',[ClasseController::class,'add'])->middleware(['auth', 'role:administrateur'])->name('class.add');
-Route::delete('/classes/{classe}',[ClasseController::class, 'destroy'] )->middleware(['auth', 'role:administrateur'])->name('classe.destroy');
-Route::get('/modules-classes/{niveauId}/{filiereId}',[ModuleController::class,'getModulesAndClasses'] )->middleware(['auth', 'role:administrateur']);
-Route::get('/classes/{niveauId}/{filiereId}',[ClasseController::class,'getFilieresClasses'])->middleware(['auth', 'role:administrateur']);
+Route::get('/classes', [ClasseController::class, 'getClasses'])->middleware(['auth', 'role:administrateur']);
+Route::post('/classes', [ClasseController::class, 'add'])->middleware(['auth', 'role:administrateur'])->name('class.add');
+Route::delete('/classes/{classe}', [ClasseController::class, 'destroy'])->middleware(['auth', 'role:administrateur'])->name('classe.destroy');
+Route::get('/modules-classes/{niveauId}/{filiereId}', [ModuleController::class, 'getModulesAndClasses'])->middleware(['auth', 'role:administrateur']);
+Route::get('/classes/{niveauId}/{filiereId}', [ClasseController::class, 'getFilieresClasses'])->middleware(['auth', 'role:administrateur']);
+Route::post('/classes/eleve/{inscriptionId}', [ClasseController::class, 'addClassToStudent'])->middleware(['auth', 'role:administrateur'])->name('eleve.class');
+#partie niveau
+Route::get('/niveau',[NiveauController::class, 'getNiveau'])->middleware(['auth', 'role:administrateur']);
+Route::post('/niveau', [NiveauController::class, 'add'])->middleware(['auth', 'role:administrateur'])->name('niveau.add');
+Route::delete('/niveau/{niveau}', [NiveauController::class, 'destroy'])->middleware(['auth', 'role:administrateur'])->name('niveau.destroy');
+
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

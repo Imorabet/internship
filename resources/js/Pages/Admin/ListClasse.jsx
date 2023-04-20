@@ -13,30 +13,39 @@ import ReactPaginate from "react-paginate";
 export default function ListClasse(props) {
     const [niveauOptions, setNiveauOptions] = useState([]);
     const [filieres, setFilieres] = useState([]);
-    const [classes,setClasses]=useState([])
+    const [filieres1, setFilieres1] = useState([]);
+    const [classes, setClasses] = useState([]);
     const [selectedNiveauId, setSelectedNiveauId] = useState();
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const [pagination, setPagination] = useState({
         currentPage: 0,
         itemsPerPage: 2,
     });
+    const [pagination1, setPagination1] = useState({
+        currentPage: 0,
+        itemsPerPage: 7,
+    });
     const {
         data,
         setData,
         delete: destroy,
         post,
-        reset,
+        put,
         processing,
     } = useForm({
-        classes:props.classes,
+        classes: props.classes,
         niveau: "",
         filiere: "",
         nom: "",
-        class:'',
+        class: "",
+        timtable:'',
     });
     useEffect(() => {
         fetch("/niveaux").then((response) =>
             response.json().then((data) => setNiveauOptions(data.niveauOptions))
+        );
+        fetch("/filieres").then((response) =>
+            response.json().then((data) => setFilieres1(data.filieres))
         );
     }, []);
     const handleOnChange = (event) => {
@@ -85,24 +94,38 @@ export default function ListClasse(props) {
             currentPage: data.selected,
         });
     };
+    const handlePageClick1 = (data) => {
+        setPagination1({
+            ...pagination1,
+            currentPage: data.selected,
+        });
+    };
+    
     const submit = (e) => {
         e.preventDefault();
-
         post(route("class.add"));
     };
+    const handleClassSelection=(e, inscriptionId) =>{
+        post(route('eleve.class',inscriptionId))}
+      
     console.log(props);
     const startIndex = pagination.currentPage * pagination.itemsPerPage;
     const endIndex = startIndex + pagination.itemsPerPage;
     const visibleClasse = props.classes.slice(startIndex, endIndex);
 
+    const startIndex1 = pagination1.currentPage * pagination1.itemsPerPage;
+    const endIndex1 = startIndex1 + pagination1.itemsPerPage;
+    const visibleEleves = props.eleves.slice(startIndex1, endIndex1);
+
     return (
         <AuthenticatedLayout auth={props.auth} errors={props.errors}>
             <Head title="ISMO - Administrateur" />
-            <div className="flex gap-2 h-screen">
+            <div className="flex gap-3 h-screen">
                 <SideBar />
-                <div className="flex flex-col w-[43%] justify-center">
-                    <form onSubmit={submit}
-                        class="xl:w-[98%] md:w-8/12 mx-6 p-4 bg-white rounded-md shadow my-4"
+                <div className="flex flex-col w-[42%] justify-center">
+                    <form
+                        onSubmit={submit}
+                        class="xl:w-[97%] md:w-[80%] md:mx-3 md:my-1 mx-6 p-3 bg-white rounded-md shadow my-4"
                     >
                         <h1 class="text-md font-medium mb-1">
                             Ajouter une classe
@@ -158,7 +181,7 @@ export default function ListClasse(props) {
                         </div>
                     </form>
 
-                    <div className="xl:w-[100%] md:w-8/12 mb-1 md:mb-0 px-2 mx-4 mt-1">
+                    <div className="xl:w-[98%] md:w-[80%] md:mx-2 mb-1 md:mb-0 px-1 mx-4 mt-1">
                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-4 shadow-lg rounded ">
                             <div className="rounded-t mb-0 px-4 py-3 border-0">
                                 <div className="flex flex-wrap items-center">
@@ -179,6 +202,9 @@ export default function ListClasse(props) {
                                             </th>
                                             <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                                                 niveau
+                                            </th>
+                                            <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                emplois du temps
                                             </th>
                                             <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                                                 Action
@@ -213,8 +239,42 @@ export default function ListClasse(props) {
                                                                     niveauOption
                                                                 ) =>
                                                                     classe.id_niveaux ===
-                                                                        niveauOption.id && ( niveauOption.nom )
+                                                                        niveauOption.id &&
+                                                                    niveauOption.nom
                                                             )}
+                                                        </td>
+                                                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                            <label
+                                                                for="timetable"
+                                                                class="mx-auto cursor-pointer flex gap-2"
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    class="h-4 w-4 text-[#003366]"
+                                                                    fill="none"
+                                                                    viewBox="0 0 24 24"
+                                                                    stroke="currentColor"
+                                                                    stroke-width="2"
+                                                                >
+                                                                    <path
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                                                    />
+                                                                </svg>
+
+                                                                <h2 class="hover:text-[#003366]">
+                                                                    Emplois du temps
+                                                                </h2>
+
+                                                                <input
+                                                                    id="timetable"
+                                                                    name="timetable"
+                                                                    value={data.timtable}
+                                                                    type="file"
+                                                                    class="hidden"
+                                                                />
+                                                            </label>
                                                         </td>
 
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 flex gap-2  whitespace-nowrap p-4">
@@ -297,8 +357,7 @@ export default function ListClasse(props) {
                             breakLabel={"..."}
                             breakClassName={"break-me"}
                             pageCount={Math.ceil(
-                                props.classes.length /
-                                    pagination.itemsPerPage
+                                props.classes.length / pagination.itemsPerPage
                             )}
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={5}
@@ -322,73 +381,121 @@ export default function ListClasse(props) {
                         />
                     </div>
                 </div>
-                <div class="xl:w-[50%] h-fit mx-6 p-4 bg-white rounded-md shadow my-8"
-                    >
-                        <h1 class="text-md font-medium mb-1">
-                            Ajouter des élèves dans les classes 
-                        </h1>
+                <div className=" w-[42%] my-7" >
+                <div className="xl:w-[98%] md:w-[80%] md:mx-1 mb-1 md:mb-0 px-1 mx-4 mt-1">
+                        <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-4 shadow-lg rounded ">
+                            <div className="rounded-t mb-0 px-4 py-3 border-0">
+                                <div className="flex flex-wrap items-center">
+                                    <h3 className="font-semibold text-base text-gray-700 relative w-full px-4 max-w-full flex-grow flex-1">
+                                        Les eleves admis
+                                    </h3>
+                                </div>
+                            </div>
+                            <div className="block w-full overflow-x-auto overflow-y-auto">
+                                <table className="items-center bg-transparent w-full border-collapse ">
+                                    <thead>
+                                        <tr>
+                                            <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                nom et prenom
+                                            </th>
+                                            <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                niveau
+                                            </th>
+                                            <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                filiere
+                                            </th>
+                                            <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
 
-                        <div class="flex  gap-3 py-4">
-                            <select
-                                className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
-                                name="niveau"
-                                id="niveau"
-                                value={data.niveau}
-                                onChange={handleOnChange}
-                                required
-                            >
-                                <option value="" disabled>
-                                    Niveau{" "}
-                                </option>
-                                {niveauOptions?.map((niveau) => (
-                                    <option key={niveau.id} value={niveau.id}>
-                                        {niveau.nom}
-                                    </option>
-                                ))}
-                            </select>
-                            <select
-                                className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
-                                name="filiere"
-                                id="filiere"
-                                value={data.filiere}
-                                onChange={handleOnChange}
-                                required
-                            >
-                                <option value="">Filiere </option>
-                                {filieres?.map((filiere) => (
-                                    <option key={filiere.id} value={filiere.id}>
-                                        {filiere.nom}
-                                    </option>
-                                ))}
-                            </select>
-                            <select
-                                className="w-content border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm h-9 text-sm"
-                                name="class"
-                                id="class"
-                                value={data.class}
-                                onChange={handleOnChange}
-                                required
-                            >
-                                <option value="">Classe </option>
-                                {classes?.map((classe) => (
-                                    <option key={classe.id} value={classe.id}>
-                                        {classe.nom}
-                                    </option>
-                                ))}
-                            </select>
+                                    <tbody>
+                                        {props.eleves.length === 0 ? (
+                                            <tr className="text-center">
+                                                <td
+                                                    colSpan={4}
+                                                    className="p-2 text-gray-500 font-normal"
+                                                >
+                                                    Aucun eleve trouvée :(
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            visibleEleves.map(
+                                                (eleve, index) => (
+                                                    <tr key={eleve.id}>
+                                                        <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left capitalize text-gray-700 ">
+                                                            {eleve.nom}{' '}{eleve.prenom}
+                                                        </th>
+
+                                                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                            {niveauOptions.map(niveau=>niveau.id==eleve.inscription.id_niveaux&&
+                                                                    niveau.nom)
+                                                            }
+                                                        </td>
+                                                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                                        {filieres1.map(filiere=>filiere.id==eleve.inscription.id_filieres &&
+                                                                    filiere.nom)
+                                                            }
+                                                        </td>
+
+                                                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 flex gap-2  whitespace-nowrap p-4">
+                                                        <select
+                                                        className="text-sm border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm"
+                                                        onChange={(e) =>
+                                                            handleClassSelection(e, eleve.inscription.id)
+                                                          }
+                                                          value={data.class_id}
+                                                        >
+                                                            <option value="">Classe</option>
+                                                            {props.classes
+                                                             .filter(classe => classe.id_filieres == eleve.inscription.id_filieres && classe.id_niveaux == eleve.inscription.id_niveaux)
+                                                             .map(classe => (
+                                                             <option key={classe.id} value={classe.id}>
+                                                            {classe.nom}
+                                                             </option>
+                                                         ))
+                                                        }
+                                                    </select>
+                                                            
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <h1 class="text-sm font-medium mb-1">
-                            Nouveau élèves admis
-                        </h1>
-                        
-
-
-                        <div class="border-t-2 pt-3 flex justify-end">
-                            <PrimaryButton disabled={processing}>
-                                valider
-                            </PrimaryButton>
-                        </div>
-                    </div>
+                        <ReactPaginate
+                            previousLabel={"<"}
+                            nextLabel={">"}
+                            breakLabel={"..."}
+                            breakClassName={"break-me"}
+                            pageCount={Math.ceil(
+                                props.eleves.length / pagination1.itemsPerPage
+                            )}
+                            marginPagesDisplayed={2}    
+                            pageRangeDisplayed={5}
+                            onPageChange={handlePageClick1}
+                            previousLinkClassName={
+                                "mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-slate-100"
+                            }
+                            nextLinkClassName={
+                                "mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-slate-100"
+                            }
+                            containerClassName={
+                                "flex  w-full justify-center rounded-lg "
+                            }
+                            pageLinkClassName={
+                                "mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-white p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-slate-100 "
+                            }
+                            activeLinkClassName={
+                                "mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-blue-900 p-0 text-sm text-slate-300 shadow-md transition duration-150 ease-in-out "
+                            }
+                            disabledLinkClassName={"text-gray-400"}
+                        />
+                    </div></div>
             </div>
         </AuthenticatedLayout>
     );

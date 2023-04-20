@@ -18,8 +18,8 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->integer('masse_horaire');
-            $table->integer('id_niveaux');
-            $table->foreign('id_niveaux')->references('id')->on('niveaux');
+            $table->unsignedBigInteger('id_niveaux');
+            $table->foreign('id_niveaux')->references('id')->on('niveaux')->onDelete('cascade');
             $table->unsignedBigInteger('id_filieres');
             $table->foreign('id_filieres')->references('id')->on('filieres')->onDelete('cascade');
         });

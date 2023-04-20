@@ -1,6 +1,6 @@
 import { FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
 import { ImBooks } from "react-icons/im";
-import { BiGitBranch } from "react-icons/bi";
+import { BsList } from "react-icons/bs";
 import { SiGoogleclassroom } from "react-icons/si";
 import { AiFillHome } from "react-icons/ai";
 import { Link } from "@inertiajs/react";
@@ -116,11 +116,11 @@ export default function SideBar() {
                         </li>
                         <li className="min-w-max hover:bg-[#5066c9]">
                             <Link
-                                href="#"
+                                href="/niveau"
                                 className="group flex items-center space-x-4 rounded-md px-4 py-3 text-white"
                             >
-                                <BiGitBranch className="text-lg" />
-                                <span className="">Filières</span>
+                                <BsList className="text-lg" />
+                                <span className="">Niveaux</span>
                             </Link>
                         </li>
                         <li className="min-w-max hover:bg-[#5066c9]">

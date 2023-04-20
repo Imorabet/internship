@@ -10,6 +10,7 @@ class Classe extends Model
     use HasFactory;
     protected $fillable = [
         'nom',
+        'emplois',
         'id_niveaux',
         'id_filieres'
     ];
