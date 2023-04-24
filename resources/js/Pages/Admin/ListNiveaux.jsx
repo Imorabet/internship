@@ -6,7 +6,7 @@ import SideBar from "@/Components/SideBar"
 import TextInput from "@/Components/TextInput"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import { Head, useForm } from "@inertiajs/react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
 import ReactPaginate from "react-paginate"
 export default function ListNiveaux(props){

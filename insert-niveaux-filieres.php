@@ -26,8 +26,6 @@ $capsule->bootEloquent();
 $niveauxFilieres = [
     ['id_niveaux' => 1, 'id_filieres' => 1],
     ['id_niveaux' => 1, 'id_filieres' => 2],
-    ['id_niveaux' => 2, 'id_filieres' => 3],
-    ['id_niveaux' => 2, 'id_filieres' => 4],
 ];
 
 // Insert data into niveaux_filieres table

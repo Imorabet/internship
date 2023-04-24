@@ -9,6 +9,7 @@ import Modal from "@/Components/Modal";
 import SecondaryButton from "@/Components/SecondaryButton";
 import DangerButton from "@/Components/DangerButton";
 import ReactPaginate from "react-paginate";
+import { BsCheckLg } from "react-icons/bs";
 
 export default function ListClasse(props) {
     const [niveauOptions, setNiveauOptions] = useState([]);
@@ -25,20 +26,14 @@ export default function ListClasse(props) {
         currentPage: 0,
         itemsPerPage: 7,
     });
-    const {
-        data,
-        setData,
-        delete: destroy,
-        post,
-        put,
-        processing,
+    const { data,setData,delete: destroy,post,put,processing,
     } = useForm({
         classes: props.classes,
         niveau: "",
         filiere: "",
         nom: "",
         class: "",
-        timtable:'',
+        timtable: "",
     });
     useEffect(() => {
         fetch("/niveaux").then((response) =>
@@ -100,14 +95,34 @@ export default function ListClasse(props) {
             currentPage: data.selected,
         });
     };
-    
+
     const submit = (e) => {
         e.preventDefault();
         post(route("class.add"));
     };
-    const handleClassSelection=(e, inscriptionId) =>{
-        post(route('eleve.class',inscriptionId))}
-      
+    const addEmplois = async (e, classeId) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append("timetable", data.timtable);
+  formData.append("classe_id", classeId);
+  try {
+    const response = await fetch(route("emplois.edit"), {
+      method: "POST", // or PUT
+      body: formData,
+    });
+    if (response.ok) {
+      console.log("File uploaded successfully!");
+    } else {
+      console.log("Error uploading file!");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+    const handleClassSelection = (e, inscriptionId) => {
+        post(route("eleve.class", inscriptionId));
+    };
+
     console.log(props);
     const startIndex = pagination.currentPage * pagination.itemsPerPage;
     const endIndex = startIndex + pagination.itemsPerPage;
@@ -195,9 +210,6 @@ export default function ListClasse(props) {
                                     <thead>
                                         <tr>
                                             <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                                #
-                                            </th>
-                                            <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                                                 classe
                                             </th>
                                             <th className="px-6 bg-gray-50 text-gray-500 align-middle border border-solid border-gray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
@@ -224,14 +236,10 @@ export default function ListClasse(props) {
                                             </tr>
                                         ) : (
                                             visibleClasse.map(
-                                                (classe, index) => (
-                                                    <tr key={classe.id}>
+                                                (classe) => (<tr key={classe.id}>
                                                         <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left capitalize text-gray-700 ">
-                                                            {index + 1}
-                                                        </th>
-                                                        <td className="capitalize    border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                             {classe.nom}
-                                                        </td>
+                                                        </th>
 
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                             {niveauOptions.map(
@@ -244,37 +252,50 @@ export default function ListClasse(props) {
                                                             )}
                                                         </td>
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                            <label
-                                                                for="timetable"
-                                                                class="mx-auto cursor-pointer flex gap-2"
+                                                            <form
+                                                                onSubmit={(e) => addEmplois(e, classe.id)}
+                                                                encType="multipart/form-data"
                                                             >
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    class="h-4 w-4 text-[#003366]"
-                                                                    fill="none"
-                                                                    viewBox="0 0 24 24"
-                                                                    stroke="currentColor"
-                                                                    stroke-width="2"
+                                                                <label
+                                                                    for="timetable"
+                                                                    class="mx-auto cursor-pointer flex gap-2"
                                                                 >
-                                                                    <path
-                                                                        stroke-linecap="round"
-                                                                        stroke-linejoin="round"
-                                                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        class="h-4 w-4 text-[#003366]"
+                                                                        fill="none"
+                                                                        viewBox="0 0 24 24"
+                                                                        stroke="currentColor"
+                                                                        stroke-width="2"
+                                                                    >
+                                                                        <path
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                                                        />
+                                                                    </svg>
+
+                                                                    <h2 class="hover:text-[#003366] ">
+                                                                        Emplois
+                                                                        du temps
+                                                                    </h2>
+                                                                    <input
+                                                                        id="timetable"
+                                                                        name="timetable"
+                                                                        value={data.timtable}
+                                                                        type="file"
+                                                                        class="hidden"
                                                                     />
-                                                                </svg>
-
-                                                                <h2 class="hover:text-[#003366]">
-                                                                    Emplois du temps
-                                                                </h2>
-
-                                                                <input
-                                                                    id="timetable"
-                                                                    name="timetable"
-                                                                    value={data.timtable}
-                                                                    type="file"
-                                                                    class="hidden"
-                                                                />
-                                                            </label>
+                                                                    <button
+                                                                        className="text-[#003366] hover:text-sm"
+                                                                        disabled={
+                                                                            processing
+                                                                        }
+                                                                    >
+                                                                        <BsCheckLg />
+                                                                    </button>
+                                                                </label>
+                                                            </form>
                                                         </td>
 
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 flex gap-2  whitespace-nowrap p-4">
@@ -381,8 +402,8 @@ export default function ListClasse(props) {
                         />
                     </div>
                 </div>
-                <div className=" w-[42%] my-7" >
-                <div className="xl:w-[98%] md:w-[80%] md:mx-1 mb-1 md:mb-0 px-1 mx-4 mt-1">
+                <div className=" w-[42%] my-7">
+                    <div className="xl:w-[98%] md:w-[80%] md:mx-1 mb-1 md:mb-0 px-1 mx-4 mt-1">
                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-4 shadow-lg rounded ">
                             <div className="rounded-t mb-0 px-4 py-3 border-0">
                                 <div className="flex flex-wrap items-center">
@@ -425,39 +446,82 @@ export default function ListClasse(props) {
                                                 (eleve, index) => (
                                                     <tr key={eleve.id}>
                                                         <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left capitalize text-gray-700 ">
-                                                            {eleve.nom}{' '}{eleve.prenom}
+                                                            {eleve.nom}{" "}
+                                                            {eleve.prenom}
                                                         </th>
 
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                            {niveauOptions.map(niveau=>niveau.id==eleve.inscription.id_niveaux&&
-                                                                    niveau.nom)
-                                                            }
+                                                            {niveauOptions.map(
+                                                                (niveau) =>
+                                                                    niveau.id ==
+                                                                        eleve
+                                                                            .inscription
+                                                                            .id_niveaux &&
+                                                                    niveau.nom
+                                                            )}
                                                         </td>
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                        {filieres1.map(filiere=>filiere.id==eleve.inscription.id_filieres &&
-                                                                    filiere.nom)
-                                                            }
+                                                            {filieres1.map(
+                                                                (filiere) =>
+                                                                    filiere.id ==
+                                                                        eleve
+                                                                            .inscription
+                                                                            .id_filieres &&
+                                                                    filiere.nom
+                                                            )}
                                                         </td>
 
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 flex gap-2  whitespace-nowrap p-4">
-                                                        <select
-                                                        className="text-sm border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm"
-                                                        onChange={(e) =>
-                                                            handleClassSelection(e, eleve.inscription.id)
-                                                          }
-                                                          value={data.class_id}
-                                                        >
-                                                            <option value="">Classe</option>
-                                                            {props.classes
-                                                             .filter(classe => classe.id_filieres == eleve.inscription.id_filieres && classe.id_niveaux == eleve.inscription.id_niveaux)
-                                                             .map(classe => (
-                                                             <option key={classe.id} value={classe.id}>
-                                                            {classe.nom}
-                                                             </option>
-                                                         ))
-                                                        }
-                                                    </select>
-                                                            
+                                                            <select
+                                                                className="text-sm border-gray-300 focus:border-[#033262] focus:ring-indigo-800 rounded-md shadow-sm"
+                                                                onChange={(e) =>
+                                                                    handleClassSelection(
+                                                                        e,
+                                                                        eleve
+                                                                            .inscription
+                                                                            .id
+                                                                    )
+                                                                }
+                                                                value={
+                                                                    data.class_id
+                                                                }
+                                                            >
+                                                                <option value="">
+                                                                    Classe
+                                                                </option>
+                                                                {props.classes
+                                                                    .filter(
+                                                                        (
+                                                                            classe
+                                                                        ) =>
+                                                                            classe.id_filieres ==
+                                                                                eleve
+                                                                                    .inscription
+                                                                                    .id_filieres &&
+                                                                            classe.id_niveaux ==
+                                                                                eleve
+                                                                                    .inscription
+                                                                                    .id_niveaux
+                                                                    )
+                                                                    .map(
+                                                                        (
+                                                                            classe
+                                                                        ) => (
+                                                                            <option
+                                                                                key={
+                                                                                    classe.id
+                                                                                }
+                                                                                value={
+                                                                                    classe.id
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    classe.nom
+                                                                                }
+                                                                            </option>
+                                                                        )
+                                                                    )}
+                                                            </select>
                                                         </td>
                                                     </tr>
                                                 )
@@ -475,7 +539,7 @@ export default function ListClasse(props) {
                             pageCount={Math.ceil(
                                 props.eleves.length / pagination1.itemsPerPage
                             )}
-                            marginPagesDisplayed={2}    
+                            marginPagesDisplayed={2}
                             pageRangeDisplayed={5}
                             onPageChange={handlePageClick1}
                             previousLinkClassName={
@@ -495,7 +559,8 @@ export default function ListClasse(props) {
                             }
                             disabledLinkClassName={"text-gray-400"}
                         />
-                    </div></div>
+                    </div>
+                </div>
             </div>
         </AuthenticatedLayout>
     );

@@ -87,10 +87,15 @@ Route::delete('/classes/{classe}', [ClasseController::class, 'destroy'])->middle
 Route::get('/modules-classes/{niveauId}/{filiereId}', [ModuleController::class, 'getModulesAndClasses'])->middleware(['auth', 'role:administrateur']);
 Route::get('/classes/{niveauId}/{filiereId}', [ClasseController::class, 'getFilieresClasses'])->middleware(['auth', 'role:administrateur']);
 Route::post('/classes/eleve/{inscriptionId}', [ClasseController::class, 'addClassToStudent'])->middleware(['auth', 'role:administrateur'])->name('eleve.class');
+Route::post('/classes/emplois', [ClasseController::class, 'updateEmplois'])->middleware(['auth', 'role:administrateur'])->name('emplois.edit');
 #partie niveau
 Route::get('/niveau',[NiveauController::class, 'getNiveau'])->middleware(['auth', 'role:administrateur']);
 Route::post('/niveau', [NiveauController::class, 'add'])->middleware(['auth', 'role:administrateur'])->name('niveau.add');
 Route::delete('/niveau/{niveau}', [NiveauController::class, 'destroy'])->middleware(['auth', 'role:administrateur'])->name('niveau.destroy');
+#partie modules
+Route::get('/modules',[ModuleController::class, 'getModules'])->middleware(['auth', 'role:administrateur']);
+Route::delete('/modules/{module}', [ModuleController::class, 'destroy'])->middleware(['auth', 'role:administrateur'])->name('module.destroy');
+Route::post('/modules', [ModuleController::class, 'add'])->middleware(['auth', 'role:administrateur'])->name('module.add');
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

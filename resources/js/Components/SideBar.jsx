@@ -125,7 +125,7 @@ export default function SideBar() {
                         </li>
                         <li className="min-w-max hover:bg-[#5066c9]">
                             <Link
-                                href="#"
+                                href="/modules"
                                 className="group flex items-center space-x-4 rounded-md px-4 py-3 text-white"
                             >
                                 <ImBooks className="text-lg" />

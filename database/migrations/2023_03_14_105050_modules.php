@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('modules',function(Blueprint $table){
             $table->id();
             $table->string('nom');
-            $table->integer('masse_horaire');
+            $table->integer('masse_horaire')->nullable();
             $table->unsignedBigInteger('id_niveaux');
             $table->foreign('id_niveaux')->references('id')->on('niveaux')->onDelete('cascade');
             $table->unsignedBigInteger('id_filieres');

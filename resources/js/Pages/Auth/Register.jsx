@@ -210,7 +210,7 @@ export default function Register() {
                         href={route("login")}
                         className="underline text-sm text-gray-600 hover:text-[#033262] rounded-md focus:outline-none "
                     >
-                        vous êtes déjà un(e) stagiaire
+                        vous êtes déjà un(e) eleve
                     </Link>
 
                     <PrimaryButton className="ml-4" disabled={processing}>

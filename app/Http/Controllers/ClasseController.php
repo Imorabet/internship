@@ -17,10 +17,11 @@ class ClasseController extends Controller
         $stagiaires = Stagiaire::where('statut', true)->with('inscription')->get();
         return Inertia::render('Admin/ListClasse', [
             'classes' => $classes,
-            'eleves'=>$stagiaires
+            'eleves' => $stagiaires
         ]);
     }
-    public function add(Request $request){
+    public function add(Request $request)
+    {
         $request->validate([
             'nom' => 'required|string|max:255',
         ]);
@@ -53,7 +54,24 @@ class ClasseController extends Controller
         $inscription = Inscription::findOrFail($inscriptionId);
         $classe = Classe::findOrFail($classeId);
         $inscription->classes()->attach($classe);
-    
+
         return response()->json(['success' => true]);
+    }
+    public function updateEmplois(Request $request, $id) {
+        $class = Classe::findOrFail($id);
+
+        // Handle the uploaded file
+        if ($request->hasFile('timetable')) {
+            $file = $request->file('timetable');
+            $filename = $file->getClientOriginalName();
+            $file->move(public_path('uploads/emplois'), $filename);
+
+            // Update the class with the file path
+            $class->emplois = $filename;
+            $class->save();
+        }
+
+        // Redirect back to the class list
+        return redirect()->route('/classes');
     }
 }
