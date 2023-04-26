@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Professeur extends Model
 {
@@ -31,5 +32,9 @@ class Professeur extends Model
     public function user()
     {
         return $this->belongsTo(User::class,'id_users');
+    }
+    public function profinfo()
+    {
+        return Professeur::where('id_users',Auth::id())->with('classes', 'modules')->get()->first();
     }
 }

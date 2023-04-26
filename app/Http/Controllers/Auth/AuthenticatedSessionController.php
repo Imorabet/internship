@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Administrateur;
+use App\Models\Professeur;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
@@ -39,9 +40,12 @@ class AuthenticatedSessionController extends Controller
         $user = $request->user();
 
         $Administrateurinfo = new Administrateur();
+        $Profinfo = new Professeur();
 
         if ($user->professeurs->count() > 0) {
-            return redirect()->route('dashboard.professeur');
+            $info=$Profinfo->profinfo();
+            $request->session()->put('prof', $info);
+            return Redirect::route('dashboard.professeur');
         } elseif ($user->stagiaires->count() > 0) {
             return redirect()->route('dashboard.stagiaire');
         } elseif ($user->administrateur) {
@@ -67,6 +71,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

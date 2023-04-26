@@ -261,14 +261,8 @@ export default function ListFormateur(props) {
                                                         </th>
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                             {formateur
-                                                                .modules[0] ? (
-                                                                <span>
-                                                                    {
-                                                                        formateur
-                                                                            .modules[0]
-                                                                            .nom
-                                                                    }
-                                                                </span>
+                                                                .modules.length!=0 ? (
+                                                                formateur.modules.map(module=><span>{module.nom}<br/></span>)
                                                             ) : (
                                                                 <span>
                                                                     Aucun module
@@ -278,14 +272,8 @@ export default function ListFormateur(props) {
                                                         </td>
                                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                                         {formateur
-                                                                .classes[0] ? (
-                                                                <span>
-                                                                    {
-                                                                        formateur
-                                                                            .classes[0]
-                                                                            .nom
-                                                                    }
-                                                                </span>
+                                                                .classes.length!=0 ? (
+                                                                formateur.classes.map(classe=><span>{classe.nom}<br/></span>)
                                                             ) : (
                                                                 <span>
                                                                    Aucune classe attribuée

@@ -51,9 +51,12 @@ Route::get('/dashboard/stagiaire', function () {
     ->middleware(['auth', 'role:stagiaires'])->name('dashboard.stagiaire');
 #---------------------------------------------------
 Route::get('/dashboard/professeur', function () {
-    return Inertia::render('Professeur/Dashboard');
+    $prof = session('prof');
+    return Inertia::render('Professeur/Dashboard',compact('prof'));
 }, [ProfesseurController::class, 'index'])
     ->middleware(['auth', 'role:professeurs'])->name('dashboard.professeur');
+Route::get('/notes', [ProfesseurController::class, 'getAuthProf'])->middleware(['auth', 'role:professeurs']);
+
 #----------------------------------------------------------------
 Route::get('/dashboard/admin', function () {
     $admin = session('admin');

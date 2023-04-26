@@ -8,6 +8,7 @@ use App\Models\Professeur;
 use App\Models\User;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -77,5 +78,13 @@ class ProfesseurController extends Controller
     
         return back();
     }
+    public function getAuthProf()
+{
+    $professeur = Professeur::where('id_users', Auth::id())->with('classes', 'modules')->first();
+    return Inertia::render('Professeur/ListNotes', [
+        'professeur' => $professeur,
+    ]);
+}
+
     
 }

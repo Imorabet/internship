@@ -33,7 +33,6 @@ class NiveauController extends Controller
             
         ]);
         $niveau = Niveau::create([
-            'id'=>3,
             'nom' => $request->niveau
         ]);
         $filiere = Filiere::create([
