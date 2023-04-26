@@ -46,8 +46,10 @@ Route::get('/modules-classes/{niveauId}/{filiereId}', [ModuleController::class, 
 // Route::get('/RedirectAuthenticated',[AuthenticatedSessionController::class,'store']);
 #--------------------------------------------------------------------------
 Route::get('/dashboard/stagiaire', function () {
-    return Inertia::render('Stagiaire/Dashboard');
+    $eleve = session('eleve');
+    return Inertia::render('Stagiaire/Dashboard', compact('eleve'));
 }, [StagiaireController::class, 'index'])
+
     ->middleware(['auth', 'role:stagiaires'])->name('dashboard.stagiaire');
 #---------------------------------------------------
 Route::get('/dashboard/professeur', function () {
