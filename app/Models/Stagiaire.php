@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+
 
 class Stagiaire extends Model
 {
@@ -28,5 +30,9 @@ class Stagiaire extends Model
     public function user()
     {
         return $this->belongsTo(User::class,'id_users');
+    }
+    public function stagiaireInfo()
+    {
+        return Stagiaire::where('id_users',Auth::id())->get()->first();
     }
 }
