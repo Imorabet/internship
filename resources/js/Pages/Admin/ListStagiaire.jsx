@@ -93,7 +93,7 @@ export default function ListStagiaire(props) {
 
     return (
         <AuthenticatedLayout auth={props.auth} errors={props.errors}>
-            <Head title="ISMO - Administrateur" />
+            <Head title="Administrateur" />
             <div className="flex gap-2 h-screen">
                 <SideBar />
                 {console.log(props)}

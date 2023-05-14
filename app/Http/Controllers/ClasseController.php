@@ -57,21 +57,22 @@ class ClasseController extends Controller
 
         return response()->json(['success' => true]);
     }
-    public function updateEmplois(Request $request, $id) {
-        $class = Classe::findOrFail($id);
+   
+    public function store(Request $request, $classeId)
+    {
+        $validatedData = $request->validate([
+            'file' => 'required|mimes:pdf',
+        ]);
+        $classe = Classe::findOrFail($classeId);
+        $file = $request->file('file');
 
-        // Handle the uploaded file
-        if ($request->hasFile('timetable')) {
-            $file = $request->file('timetable');
-            $filename = $file->getClientOriginalName();
-            $file->move(public_path('uploads/emplois'), $filename);
+        $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('public', $fileName);
 
-            // Update the class with the file path
-            $class->emplois = $filename;
-            $class->save();
-        }
 
-        // Redirect back to the class list
-        return redirect()->route('/classes');
+        $classe->emplois = $fileName;
+        $classe->save();
+
+        return redirect('/classes');
     }
 }

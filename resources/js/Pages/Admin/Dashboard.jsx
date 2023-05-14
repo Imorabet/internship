@@ -16,7 +16,7 @@ export default function Dashboard(props) {
             }
             errors={props.errors}
         >
-            <Head title="ISMO - Administrateur" />
+            <Head title="Administrateur" />
             <div className="flex gap-2">
            <SideBar/>
             <div>

@@ -15,7 +15,7 @@ export default function Dashboard(props) {
             errors={props.errors}
             rout={"dashboard.professeur"}
         >
-            <Head title="ISMO - Professeur" />
+            <Head title="Professeur" />
             <div className="flex gap-2">
                 <SideMenu />
                 <div className="py-5 flex w-3/4 h-full">

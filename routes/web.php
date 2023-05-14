@@ -49,7 +49,6 @@ Route::get('/dashboard/stagiaire', function () {
     $eleve = session('eleve');
     return Inertia::render('Stagiaire/Dashboard', compact('eleve'));
 }, [StagiaireController::class, 'index'])
-
     ->middleware(['auth', 'role:stagiaires'])->name('dashboard.stagiaire');
 #---------------------------------------------------
 Route::get('/dashboard/professeur', function () {
@@ -58,6 +57,7 @@ Route::get('/dashboard/professeur', function () {
 }, [ProfesseurController::class, 'index'])
     ->middleware(['auth', 'role:professeurs'])->name('dashboard.professeur');
 Route::get('/notes', [ProfesseurController::class, 'getAuthProf'])->middleware(['auth', 'role:professeurs']);
+Route::post('/eleve-list')->middleware(['auth', 'role:professeurs'])->name('eleve.list');
 
 #----------------------------------------------------------------
 Route::get('/dashboard/admin', function () {
@@ -92,7 +92,7 @@ Route::delete('/classes/{classe}', [ClasseController::class, 'destroy'])->middle
 Route::get('/modules-classes/{niveauId}/{filiereId}', [ModuleController::class, 'getModulesAndClasses'])->middleware(['auth', 'role:administrateur']);
 Route::get('/classes/{niveauId}/{filiereId}', [ClasseController::class, 'getFilieresClasses'])->middleware(['auth', 'role:administrateur']);
 Route::post('/classes/eleve/{inscriptionId}', [ClasseController::class, 'addClassToStudent'])->middleware(['auth', 'role:administrateur'])->name('eleve.class');
-Route::post('/classes/emplois', [ClasseController::class, 'updateEmplois'])->middleware(['auth', 'role:administrateur'])->name('emplois.edit');
+Route::post('/classes/emplois/{classeId}', [ClasseController::class, 'store'])->middleware(['auth', 'role:administrateur'])->name('emplois.add');
 #partie niveau
 Route::get('/niveau',[NiveauController::class, 'getNiveau'])->middleware(['auth', 'role:administrateur']);
 Route::post('/niveau', [NiveauController::class, 'add'])->middleware(['auth', 'role:administrateur'])->name('niveau.add');

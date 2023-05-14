@@ -38,7 +38,7 @@ export default function AjoutAdmin(props) {
     
     return (
         <AuthenticatedLayout auth={props.auth} errors={props.errors}>
-            <Head title="ISMO - Administrateur" />
+            <Head title="Administrateur" />
             <div className="flex gap-2 h-screen">
             <SideBar/>
             <form className="xl:w-[43%] h-fit mx-6 p-4 bg-white rounded-md shadow my-8 items" onSubmit={submit}>

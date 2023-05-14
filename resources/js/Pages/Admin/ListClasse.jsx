@@ -26,14 +26,20 @@ export default function ListClasse(props) {
         currentPage: 0,
         itemsPerPage: 7,
     });
-    const { data,setData,delete: destroy,post,put,processing,
+    const {
+        data,
+        setData,
+        delete: destroy,
+        post,
+        put,
+        processing,
     } = useForm({
         classes: props.classes,
         niveau: "",
         filiere: "",
         nom: "",
         class: "",
-        timtable: "",
+        file: "",
     });
     useEffect(() => {
         fetch("/niveaux").then((response) =>
@@ -100,25 +106,10 @@ export default function ListClasse(props) {
         e.preventDefault();
         post(route("class.add"));
     };
-    const addEmplois = async (e, classeId) => {
-  e.preventDefault();
-  const formData = new FormData();
-  formData.append("timetable", data.timtable);
-  formData.append("classe_id", classeId);
-  try {
-    const response = await fetch(route("emplois.edit"), {
-      method: "POST", // or PUT
-      body: formData,
-    });
-    if (response.ok) {
-      console.log("File uploaded successfully!");
-    } else {
-      console.log("Error uploading file!");
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
+    const addEmplois = (e, classeId) => {
+        e.preventDefault();
+        post(route("emplois.add", classeId));
+    };
     const handleClassSelection = (e, inscriptionId) => {
         post(route("eleve.class", inscriptionId));
     };
@@ -134,7 +125,7 @@ export default function ListClasse(props) {
 
     return (
         <AuthenticatedLayout auth={props.auth} errors={props.errors}>
-            <Head title="ISMO - Administrateur" />
+            <Head title="Administrateur" />
             <div className="flex gap-3 h-screen">
                 <SideBar />
                 <div className="flex flex-col w-[42%] justify-center">
@@ -235,138 +226,140 @@ export default function ListClasse(props) {
                                                 </td>
                                             </tr>
                                         ) : (
-                                            visibleClasse.map(
-                                                (classe) => (<tr key={classe.id}>
-                                                        <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left capitalize text-gray-700 ">
-                                                            {classe.nom}
-                                                        </th>
+                                            visibleClasse.map((classe) => (
+                                                <tr key={classe.id}>
+                                                    <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-3 text-left capitalize text-gray-700 ">
+                                                        {classe.nom}
+                                                    </th>
 
-                                                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                            {niveauOptions.map(
-                                                                (
-                                                                    niveauOption
-                                                                ) =>
-                                                                    classe.id_niveaux ===
-                                                                        niveauOption.id &&
-                                                                    niveauOption.nom
-                                                            )}
-                                                        </td>
-                                                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                                            <form
-                                                                onSubmit={(e) => addEmplois(e, classe.id)}
-                                                                encType="multipart/form-data"
+                                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-3">
+                                                        {niveauOptions.map(
+                                                            (niveauOption) =>
+                                                                classe.id_niveaux ===
+                                                                    niveauOption.id &&
+                                                                niveauOption.nom
+                                                        )}
+                                                    </td>
+                                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-3">
+                                                        <form
+                                                            onSubmit={(e) =>
+                                                                addEmplois(
+                                                                    e,
+                                                                    classe.id
+                                                                )
+                                                            }
+                                                            encType="multipart/form-data"
+                                                            method="PUT"
+                                                        >
+                                                             {classe.emplois ? (
+                                                                <div>
+                                                            <p>
+                                                                emplois
+                                                                uploaded or upload again:
+                                                            </p>
+                                                            
+                                                            <TextInput
+                                                            id="timetable"
+                                                            name="timetable"
+                                                            type="file"
+                                                            onChange={(e) =>
+                                                                setData(
+                                                                    "timetable",
+                                                                    e.target
+                                                                    .files[0]
+                                                                    )
+                                                                }
+                                                                /></div>
+                                                                ) : (
+                                                                    
+                                                            <TextInput
+                                                                id="file"
+                                                                name="file"
+                                                                type="file"
+                                                                onChange={(e) =>
+                                                                    setData(
+                                                                        "file",
+                                                                        e.target
+                                                                            .files[0]
+                                                                    )
+                                                                }
+                                                                />
+                                                                )}
+                                                            <button
+                                                            className="text-[#003366] hover:text-sm"
+                                                            disabled={
+                                                                processing
+                                                            }
                                                             >
-                                                                <label
-                                                                    for="timetable"
-                                                                    class="mx-auto cursor-pointer flex gap-2"
-                                                                >
-                                                                    <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        class="h-4 w-4 text-[#003366]"
-                                                                        fill="none"
-                                                                        viewBox="0 0 24 24"
-                                                                        stroke="currentColor"
-                                                                        stroke-width="2"
-                                                                    >
-                                                                        <path
-                                                                            stroke-linecap="round"
-                                                                            stroke-linejoin="round"
-                                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                                                                        />
-                                                                    </svg>
+                                                                <BsCheckLg />
+                                                            </button>
+                                                        </form>
+                                                    </td>
 
-                                                                    <h2 class="hover:text-[#003366] ">
-                                                                        Emplois
-                                                                        du temps
-                                                                    </h2>
-                                                                    <input
-                                                                        id="timetable"
-                                                                        name="timetable"
-                                                                        value={data.timtable}
-                                                                        type="file"
-                                                                        class="hidden"
-                                                                    />
-                                                                    <button
-                                                                        className="text-[#003366] hover:text-sm"
+                                                    <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 flex gap-2  whitespace-nowrap p-3">
+                                                        <button>
+                                                            <AiOutlineEdit className="text-xl text-gray-500 hover:text-[#003366]" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() =>
+                                                                confirmUserDeletion(
+                                                                    classe.id
+                                                                )
+                                                            }
+                                                        >
+                                                            <AiOutlineDelete className="text-xl text-gray-500 hover:text-[#003366]" />
+                                                        </button>
+                                                        <Modal
+                                                            show={
+                                                                confirmingUserDeletion
+                                                            }
+                                                            onClose={closeModal}
+                                                        >
+                                                            <form
+                                                                onSubmit={
+                                                                    deleteclass
+                                                                }
+                                                                className="p-6"
+                                                            >
+                                                                <h2 className="text-lg font-medium text-gray-900">
+                                                                    Êtes-vous
+                                                                    sûr?
+                                                                </h2>
+
+                                                                <p className="mt-1 text-sm text-gray-600">
+                                                                    Une fois
+                                                                    supprimé,
+                                                                    vous ne
+                                                                    pourrez plus
+                                                                    récupérer
+                                                                    les infos de
+                                                                    cette classe
+                                                                    !
+                                                                </p>
+
+                                                                <div className="mt-6 flex justify-end">
+                                                                    <SecondaryButton
+                                                                        onClick={
+                                                                            closeModal
+                                                                        }
+                                                                    >
+                                                                        Annuler
+                                                                    </SecondaryButton>
+
+                                                                    <DangerButton
+                                                                        className="ml-3"
                                                                         disabled={
                                                                             processing
                                                                         }
                                                                     >
-                                                                        <BsCheckLg />
-                                                                    </button>
-                                                                </label>
+                                                                        Supprimer
+                                                                    </DangerButton>
+                                                                </div>
                                                             </form>
-                                                        </td>
-
-                                                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 flex gap-2  whitespace-nowrap p-4">
-                                                            <button>
-                                                                <AiOutlineEdit className="text-xl text-gray-500 hover:text-[#003366]" />
-                                                            </button>
-                                                            <button
-                                                                onClick={() =>
-                                                                    confirmUserDeletion(
-                                                                        classe.id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <AiOutlineDelete className="text-xl text-gray-500 hover:text-[#003366]" />
-                                                            </button>
-                                                            <Modal
-                                                                show={
-                                                                    confirmingUserDeletion
-                                                                }
-                                                                onClose={
-                                                                    closeModal
-                                                                }
-                                                            >
-                                                                <form
-                                                                    onSubmit={
-                                                                        deleteclass
-                                                                    }
-                                                                    className="p-6"
-                                                                >
-                                                                    <h2 className="text-lg font-medium text-gray-900">
-                                                                        Êtes-vous
-                                                                        sûr?
-                                                                    </h2>
-
-                                                                    <p className="mt-1 text-sm text-gray-600">
-                                                                        Une fois
-                                                                        supprimé,
-                                                                        vous ne
-                                                                        pourrez
-                                                                        plus
-                                                                        récupérer
-                                                                        les
-                                                                        infos de
-                                                                        cette
-                                                                        classe !
-                                                                    </p>
-
-                                                                    <div className="mt-6 flex justify-end">
-                                                                        <SecondaryButton
-                                                                            onClick={
-                                                                                closeModal
-                                                                            }
-                                                                        >
-                                                                            Annuler
-                                                                        </SecondaryButton>
-
-                                                                        <DangerButton
-                                                                            className="ml-3"
-                                                                            disabled={
-                                                                                processing
-                                                                            }
-                                                                        >
-                                                                            Supprimer
-                                                                        </DangerButton>
-                                                                    </div>
-                                                                </form>
-                                                            </Modal>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                            )
+                                                        </Modal>
+                                                    </td>
+                                                </tr>
+                                            ))
                                         )}
                                     </tbody>
                                 </table>

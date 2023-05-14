@@ -15,7 +15,7 @@ export default function Dashboard(props) {
             errors={props.errors}
             rout={'dashboard.statgiaire'}
         >
-            <Head title="ISMO - Stagiaire" />
+            <Head title="Eleve" />
             {props.eleve.statut==0 ?
             (<main class="h-screen w-full flex flex-col justify-center items-center bg-[#193172]">
 

@@ -60,7 +60,7 @@ export default function ListNiveaux(props){
     const visibleniveaux = props.niveaux.slice(startIndex, endIndex);
     return(
         <AuthenticatedLayout auth={props.auth} errors={props.errors}>
-        <Head title="ISMO - Administrateur" />
+        <Head title="Administrateur" />
         <div className="flex gap-3 h-screen">
             <SideBar />
             <div className="flex flex-col w-[42%] justify-center">

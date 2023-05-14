@@ -82,7 +82,7 @@ export default function ListModule(props){
     const visiblemodules = props.modules.slice(startIndex, endIndex);
     return(
         <AuthenticatedLayout auth={props.auth} errors={props.errors}>
-        <Head title="ISMO - Administrateur" />
+        <Head title="Administrateur" />
         <div className="flex gap-3 h-screen">
             <SideBar />
             <div className="flex flex-col w-[70%] gap-2 py-3 px-6 justify-center">

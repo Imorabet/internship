@@ -6,8 +6,10 @@ import { useState } from "react";
 
 export default function ListNotes(props) {
     const [selectedClass, setSelectedClass] = useState([]);
+    const [selectedModule, setSelectedModule] = useState(null);
     console.log(props);
-    const {
+  
+      const {
         data,
         setData,
         delete: destroy,
@@ -17,29 +19,38 @@ export default function ListNotes(props) {
     } = useForm({
         class: "",
         matiere: "",
-    });
-    console.log(props);
+    });console.log(props);
     const submit = (e) => {
         e.preventDefault();
-        post(route(""));
+        post(route("eleve.list"));
     };
     const handleOnChange = (event) => {
-        setData(
-            event.target.name,
-            event.target.type === "checkbox"
-                ? event.target.checked
-                : event.target.value
-        );
-        if (event.target.name == "class") {
-            const classId = event.target.value;
-            const selectedClass = props.professeur.classes.find(
-                (classe) => classe.id === parseInt(classId)
-            );
-            setSelectedClass(selectedClass);
+        const { name, value } = event.target;
+        setData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+      
+        if (name === "class") {
+          const classId = value;
+          const selectedClass = props.professeur.classes.find(
+            (classe) => classe.id === parseInt(classId)
+          );
+          setSelectedClass(selectedClass);
+      
+          const moduleInClass = props.professeur.modules.find(
+            (module) => module.id === selectedClass.pivot.id_modules
+          );
+          setSelectedModule(moduleInClass);
+      
+          setData((prevData) => ({
+            ...prevData,
+            class: classId,
+            matiere: moduleInClass.id,
+          }));
         }
-    };
-   const moduleInClass = props.professeur.modules.find((module) => module.id === selectedClass.pivot.id_modules);
-
+      };
+      
     console.log(selectedClass);
     return (
         <AuthenticatedLayout
@@ -52,7 +63,7 @@ export default function ListNotes(props) {
             errors={props.errors}
             rout={"dashboard.professeur"}
         >
-            <Head title="ISMO - Professeur" />
+            <Head title="Professeur" />
             <div className="flex gap-2">
                 <SideMenu />
                 <div className="flex flex-col w-[70%] p-4">
@@ -61,7 +72,7 @@ export default function ListNotes(props) {
                         className="xl:w-[97%] md:w-[80%] md:mx-3 md:my-1 mx-6 p-3 bg-white rounded-md shadow my-4"
                     >
                         <h1 className="text-md font-medium mb-1">
-                            selectionner une classe
+                            Selectionner une classe
                         </h1>
                         <div className="flex flex-col  gap-3 py-4">
                             <select
@@ -92,15 +103,13 @@ export default function ListNotes(props) {
                                 <option value="" disabled>
                                     Matière{" "}
                                 </option>
-                            {moduleInClass ? (
+                                {selectedModule && (
                                     <option
-                                        key={moduleInClass.id}
-                                        value={moduleInClass.id}
+                                        key={selectedModule.id}
+                                        value={selectedModule.id}
                                     >
-                                        {moduleInClass.nom}
+                                        {selectedModule.nom}        
                                     </option>
-                                ) : (
-                                    console.log("rah makhadamsahe")
                                 )}
                             </select>
                         </div>
