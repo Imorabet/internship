@@ -21,8 +21,8 @@ class Classe extends Model
     }
     public function inscriptions()
     {
-        return $this->belongsToMany(Inscription::class, 'inscription_classes', 'id_inscriptions');
-    }
+        return $this->belongsToMany(Inscription::class, 'inscription_classes', 'id_classes', 'id_inscriptions');
+    }    
     public function module()
     {
         return $this->belongsToMany(Module::class, 'affectations', 'id_modules');

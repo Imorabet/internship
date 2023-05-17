@@ -7,6 +7,8 @@ import { useState } from "react";
 export default function ListNotes(props) {
     const [selectedClass, setSelectedClass] = useState([]);
     const [selectedModule, setSelectedModule] = useState(null);
+    const [studentsWithExamsAndNotes, setStudentsWithExamsAndNotes] = useState([]);
+
     console.log(props);
   
       const {
@@ -20,10 +22,15 @@ export default function ListNotes(props) {
         class: "",
         matiere: "",
     });console.log(props);
-    const submit = (e) => {
+    async function submit(e)  {
         e.preventDefault();
-        post(route("eleve.list"));
-    };
+        post(route("eleve.list"), {
+            onSuccess: ({ data }) => {
+                console.log('wdfgzuwerwe',data)
+                setStudentsWithExamsAndNotes(data);
+              },
+          });
+        };
     const handleOnChange = (event) => {
         const { name, value } = event.target;
         setData((prevData) => ({
@@ -119,6 +126,25 @@ export default function ListNotes(props) {
                             </PrimaryButton>
                         </div>
                     </form>
+                    <div>{console.log(studentsWithExamsAndNotes)}
+  {studentsWithExamsAndNotes?.map((student) => (
+    <div key={student.id}>
+      <h2>{student.name}</h2>
+      {student.exams.map((exam) => (
+        <div key={`${exam.module}-${exam.type}`}>
+          <p>{exam.module}</p>
+          <p>{exam.type}</p>
+          <ul>
+            {exam.notes.map((note, index) => (
+              <li key={index}>{note}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  ))}
+</div>
+
                 </div>
             </div>
         </AuthenticatedLayout>

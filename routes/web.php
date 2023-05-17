@@ -57,7 +57,7 @@ Route::get('/dashboard/professeur', function () {
 }, [ProfesseurController::class, 'index'])
     ->middleware(['auth', 'role:professeurs'])->name('dashboard.professeur');
 Route::get('/notes', [ProfesseurController::class, 'getAuthProf'])->middleware(['auth', 'role:professeurs']);
-Route::post('/eleve-list')->middleware(['auth', 'role:professeurs'])->name('eleve.list');
+Route::post('/notes', [ClasseController::class, 'getElevesWithNotes'])->middleware(['auth', 'role:professeurs'])->name('eleve.list');
 
 #----------------------------------------------------------------
 Route::get('/dashboard/admin', function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Administrateur;
 use App\Models\Classe;
+use App\Models\Examen;
 use App\Models\Inscription;
 use App\Models\Stagiaire;
 use Illuminate\Http\Request;
@@ -57,7 +58,7 @@ class ClasseController extends Controller
 
         return response()->json(['success' => true]);
     }
-   
+
     public function store(Request $request, $classeId)
     {
         $validatedData = $request->validate([
@@ -74,5 +75,46 @@ class ClasseController extends Controller
         $classe->save();
 
         return redirect('/classes');
+    }
+    public function getElevesWithNotes(Request $request)
+    {
+        $classId = $request->input('class');
+        $moduleId = $request->input('matiere');
+
+        $students = Classe::findOrFail($classId)->inscriptions()->with('stagiaire')->get();
+
+      
+        $exams = Examen::where('id_classes', $classId)
+            ->where('id_modules', $moduleId)
+            ->with('type_examen')
+            ->get();
+
+            $studentsWithExamsAndNotes = [];
+            foreach ($students as $student) {
+                foreach ($student->stagiaire as $stagiaire) {
+                    $studentWithExamsAndNotes = [
+                        'id' => $stagiaire->id,
+                        'name' => $stagiaire->nom,
+                        'exams' => [],
+                    ];
+            
+                    foreach ($exams as $exam) {
+                        $notes = $exam->where('id_classes', $classId)
+                                      ->where('id_modules', $moduleId)
+                                      ->pluck('note')
+                                      ->toArray();
+                    $studentWithExamsAndNotes['exams'][] = [
+                        'module' => $exam->module->nom,
+                        'type' => $exam->type_examen->nom,
+                        'notes' => $notes,
+                    ];
+                }
+            
+                $studentsWithExamsAndNotes[] = $studentWithExamsAndNotes;
+            }
+        }
+
+        return redirect('/notes')->with('studentsWithExamsAndNotes', $studentsWithExamsAndNotes);
+
     }
 }

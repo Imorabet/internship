@@ -29,15 +29,15 @@ class Inscription extends Model
     }
     public function classes()
     {
-        return $this->belongsToMany(Classe::class, 'inscription_classes', 'id_classes');
+        return $this->belongsToMany(Classe::class, 'inscription_classes', 'id_inscriptions','id_classes');
     }
     public function stagiaire()
     {
-        return $this->hasMany(Stagiaire::class, 'id_stagiaires');
-    }
+        return $this->hasMany(Stagiaire::class, 'id_inscriptions');
+    }    
     public function examens()
     {
-        return $this->belongsToMany(Examen::class, 'evaluations', 'id_examens');
+        return $this->belongsToMany(Examen::class, 'evaluations', 'id_inscriptions','id_examens');
     }
     protected static function boot()
     {
