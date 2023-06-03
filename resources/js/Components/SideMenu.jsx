@@ -11,50 +11,106 @@ import { useEffect, useState } from "react";
 export default function SideMenu() {
  
     return (
-        <div className="sidebar min-h-screen w-[3.27rem] overflow-hidden border-r hover:w-56 bg-[#003366] hover:shadow-lg">
-            <div className="flex h-screen flex-col justify-between pt-2 pb-6">
-                <div>
-                    <div className="w-max p-2.5">
-                        
-                    </div>
-                    <ul className="mt-6 space-y-2 tracking-wide">
-                        <li className="min-w-max hover:bg-[#5066c9]">
-                            <Link
-                                href="/dashboard/professeur"
-                                aria-label="dashboard"
-                                className="relative flex items-center bg-gradient-to-r gap-4 px-4 py-3 text-white"
-                            >
-                                <AiFillHome className="text-lg" />
-                                <span className="-mr-1 font-medium">
-                                Acceuil</span>
-                               </Link>
-                        </li>
- 
-                      
-                        <li className="min-w-max hover:bg-[#5066c9]">
-                            <Link
-                                href="/notes"
-                                className="group flex items-center space-x-4 rounded-md px-4 py-3 text-white"
-                            >
-                                <SiGoogleclassroom className="text-lg" />
-                                <span className="">Notes</span>
-                            </Link>
-                        </li>
-                    </ul>
+        <div className="sidebar min-h-screen  overflow-hidden border-r w-56 bg-[#003366] hover:shadow-lg">
+        <div className="flex h-screen flex-col justify-between pt-2 pb-6 text-white">
+            <div>
+                <div className="p-2.5  font-extrabold text-xl leading-5 text-center font-syne">
+                    school360
                 </div>
-                <div className="w-max -mb-3">
-                    <Link
-                        href={route("logout")}
-                        method="post"
-                        as="button"
-                        className="group flex items-center space-x-4 rounded-md px-4 py-3 text-white hover:bg-[#20294b5a]"
-                    >
-                        <FiLogOut className="text-lg" />
+                <ul class="flex flex-col py-4 space-y-1 ">
+                    <li>
+                        <a
+                            href="/dashboard/professeur"
+                            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9] text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
+                        >
+                            <span class="inline-flex justify-center items-center ml-4">
+                                <AiFillHome className="text-lg"/>
+                            </span>
+                            <span class="ml-2 text-sm tracking-wide truncate">
+                                Dashboard
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="/notes"
+                            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
+                        >
+                            <span class="inline-flex justify-center items-center ml-4">
+                            <FaUserGraduate className="text-lg" />
+                            </span>
+                            <span class="ml-2 text-sm tracking-wide truncate">
+                            Élèves
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
+                        >
+                            <span class="inline-flex justify-center items-center ml-4">
+                           <SiGoogleclassroom  className="text-lg"/>
+                            </span>
+                            <span class="ml-2 text-sm tracking-wide truncate">
+                            Classes
+                            </span>
+                        </a>
+                    </li>
+                    <li class="px-5 hidden md:block">
+                        <div class="flex flex-row items-center mt-5 h-8">
+                            <div class="text-[9px] font-light tracking-wide  uppercase">
+                            paramètres
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
+                        >
+                            <span class="inline-flex justify-center items-center ml-4">
+                                <svg
+                                    class="w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                    ></path>
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                    ></path>
+                                </svg>
+                            </span>
+                            <span class="ml-2 text-sm tracking-wide truncate">
+                            Paramètres
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div className="w-max -mb-3">
+                <Link
+                    href={route("logout")}
+                    method="post"
+                    as="button"
+                    className="group flex items-center space-x-4 rounded-md px-4 py-3 text-white hover:bg-[#20294b5a]"
+                >
+                    <FiLogOut className="text-lg" />
 
-                        <span className="">Déconnecter</span>
-                    </Link>
-                </div>
+                    <span className="">Déconnecter</span>
+                </Link>
             </div>
         </div>
+    </div>
     );
 }

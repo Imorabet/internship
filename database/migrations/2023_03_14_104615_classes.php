@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('classes',function(Blueprint $table){
             $table->id();
             $table->string('nom');
-            $table->binary('emplois')->nullable();
+            $table->string('emplois')->nullable();
             $table->unsignedBigInteger('id_niveaux');
             $table->foreign('id_niveaux')->references('id')->on('niveaux')->onDelete('cascade');
             $table->unsignedBigInteger('id_filieres');

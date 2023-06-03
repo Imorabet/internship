@@ -62,14 +62,14 @@ export default function Register() {
 
     return (
         <GuestLayout>
-            <Head title="ISMO - S'inscrire" />
+            <Head title="S'inscrire" />
 
             <form onSubmit={submit}>
                 <h1 className="text-center py-3 uppercase font-semibold text-[#003366] text-2xl">
                     s'INSCRIRe
                 </h1>
                 <p className="text-center py-1">
-                    Inscrivez-vous maintenant et devenez l'un de nos stagiaires.
+                    Inscrivez-vous maintenant et devenez l'un de nos élèves.
                 </p>
                 <div className="flex gap-2 mt-4">
                     <div className="w-1/2">
@@ -210,7 +210,7 @@ export default function Register() {
                         href={route("login")}
                         className="underline text-sm text-gray-600 hover:text-[#033262] rounded-md focus:outline-none "
                     >
-                        vous êtes déjà un(e) eleve
+                        vous êtes déjà un(e) élève
                     </Link>
 
                     <PrimaryButton className="ml-4" disabled={processing}>

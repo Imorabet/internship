@@ -24,15 +24,18 @@ class Stagiaire extends Model
         'date_naissance'=>'date',
     ];
     public $timestamps = false;
-    public function inscription(){
-        return $this->belongsTo(Inscription::class,'id_inscriptions');
+    public function inscription()
+    {
+        return $this->belongsTo(Inscription::class, 'id_inscriptions')->with(['classes','examens']);
     }
+    
     public function user()
     {
         return $this->belongsTo(User::class,'id_users');
     }
     public function stagiaireInfo()
     {
-        return Stagiaire::where('id_users',Auth::id())->get()->first();
+        return Stagiaire::with('inscription')->where('id_users', Auth::id())->first();
     }
+    
 }

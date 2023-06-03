@@ -29,120 +29,147 @@ export default function AjoutFormateur(props) {
             event.target.type === "checkbox"
                 ? event.target.checked
                 : event.target.value
-        );}
-        const submit = (e) => {
-            e.preventDefault();
-    
-            post(route("prof.add"));
-        };
-    
+        );
+    };
+    const submit = (e) => {
+        e.preventDefault();
+
+        post(route("prof.add"));
+    };
+
     return (
         <AuthenticatedLayout auth={props.auth} errors={props.errors}>
             <Head title="Administrateur" />
-            <div className="flex gap-2 h-screen">
-            <SideBar/>
-            <form className="xl:w-[43%] h-fit mx-6 p-4 bg-white rounded-md shadow my-8" onSubmit={submit}>
-                <h1 className="text-gray-500  font-medium">Ajouter un nouveau formateur :</h1>
-                <div className="flex gap-2 mt-4">
-                    <div className="w-1/2">
-                        <TextInput
-                            id="nom"
-                            name="nom"
-                            value={data.nom}
-                            className="mt-1 block w-full capitalize"
-                            autoComplete="nom"
-                            isFocused={true}
-                            onChange={handleOnChange}
-                            placeholder="Nom"
-                            required
-                        />{" "}
-                        <InputError message={errors.nom} className="mt-2" />
-                    </div>
-                    <div className="w-1/2">
-                        <TextInput
-                            id="prenom"
-                            name="prenom"
-                            value={data.prenom}
-                            className="mt-1 block w-full capitalize"
-                            autoComplete="prenom"
-                            isFocused={true}
-                            onChange={handleOnChange}
-                            required
-                            placeholder="Prénom"
-                        />
-                        <InputError message={errors.prenom} className="mt-2" />
-                    </div>
-                </div>
-                <div className="mt-4">
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={handleOnChange}
-                        required
-                        placeholder="Email"
-                    />
+            <div className="flex gap-2 h-screen ">
+                <SideBar />
+                <div className="flex flex-row justify-center w-4/5 ">
+                    <form
+                        className="xl:w-1/2 h-fit mx-6 p-4 bg-white rounded-md shadow my-8"
+                        onSubmit={submit}
+                    >
+                        <h1 className="text-gray-500  font-medium">
+                            Ajouter un nouveau formateur :
+                        </h1>
+                        <div className="flex gap-2 mt-4">
+                            <div className="w-1/2">
+                                <TextInput
+                                    id="nom"
+                                    name="nom"
+                                    value={data.nom}
+                                    className="mt-1 block w-full capitalize"
+                                    autoComplete="nom"
+                                    isFocused={true}
+                                    onChange={handleOnChange}
+                                    placeholder="Nom"
+                                    required
+                                />{" "}
+                                <InputError
+                                    message={errors.nom}
+                                    className="mt-2"
+                                />
+                            </div>
+                            <div className="w-1/2">
+                                <TextInput
+                                    id="prenom"
+                                    name="prenom"
+                                    value={data.prenom}
+                                    className="mt-1 block w-full capitalize"
+                                    autoComplete="prenom"
+                                    isFocused={true}
+                                    onChange={handleOnChange}
+                                    required
+                                    placeholder="Prénom"
+                                />
+                                <InputError
+                                    message={errors.prenom}
+                                    className="mt-2"
+                                />
+                            </div>
+                        </div>
+                        <div className="mt-4">
+                            <TextInput
+                                id="email"
+                                type="email"
+                                name="email"
+                                value={data.email}
+                                className="mt-1 block w-full"
+                                autoComplete="username"
+                                onChange={handleOnChange}
+                                required
+                                placeholder="Email"
+                            />
 
-                     <InputError message={errors.email} className="mt-2" />
-                </div>
-                <div className="mt-4">
-                    <TextInput
-                        id="date"
-                        name="date"
-                        type="date"
-                        value={data.date}
-                        className="mt-1 block w-full"
-                        autoComplete="date"
-                        isFocused={true}
-                        onChange={handleOnChange}
-                        required
-                        max={maxDate}
-                        placeholder="Date de naissance"
-                    />
+                            <InputError
+                                message={errors.email}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="mt-4">
+                            <TextInput
+                                id="date"
+                                name="date"
+                                type="date"
+                                value={data.date}
+                                className="mt-1 block w-full"
+                                autoComplete="date"
+                                isFocused={true}
+                                onChange={handleOnChange}
+                                required
+                                max={maxDate}
+                                placeholder="Date de naissance"
+                            />
 
-                    <InputError message={errors.date} className="mt-2" />
-                </div>
-                <div className="mt-4">
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        onChange={handleOnChange}
-                        required
-                        placeholder="Mot de passe"
-                    />
+                            <InputError
+                                message={errors.date}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="mt-4">
+                            <TextInput
+                                id="password"
+                                type="password"
+                                name="password"
+                                value={data.password}
+                                className="mt-1 block w-full"
+                                onChange={handleOnChange}
+                                required
+                                placeholder="Mot de passe"
+                            />
 
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
+                            <InputError
+                                message={errors.password}
+                                className="mt-2"
+                            />
+                        </div>
 
-                <div className="mt-4">
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        onChange={handleOnChange}
-                        required
-                        placeholder="Confirmer mot de passe"
-                    />
+                        <div className="mt-4">
+                            <TextInput
+                                id="password_confirmation"
+                                type="password"
+                                name="password_confirmation"
+                                value={data.password_confirmation}
+                                className="mt-1 block w-full"
+                                onChange={handleOnChange}
+                                required
+                                placeholder="Confirmer mot de passe"
+                            />
 
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
+                            <InputError
+                                message={errors.password_confirmation}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="flex items-center justify-end mt-6">
+                            <PrimaryButton
+                                className="ml-4 bg-indigo-500"
+                                disabled={processing}
+                            >
+                                Ajouter
+                            </PrimaryButton>
+                        </div>
+                    </form>
                 </div>
-                <div className="flex items-center justify-end mt-6">
-                <PrimaryButton className="ml-4" disabled={processing}>
-                        Ajouter
-                    </PrimaryButton>
-                </div>
-            </form></div>
+            </div>
         </AuthenticatedLayout>
     );
 }

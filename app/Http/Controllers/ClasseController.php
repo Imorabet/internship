@@ -15,12 +15,17 @@ class ClasseController extends Controller
     public function getClasses()
     {
         $classes = Classe::all();
-        $stagiaires = Stagiaire::where('statut', true)->with('inscription')->get();
+        $stagiairesWithoutClass = Stagiaire::where('statut', true)
+            ->doesntHave('inscription.classes')
+            ->with('inscription')
+            ->get();
+
         return Inertia::render('Admin/ListClasse', [
             'classes' => $classes,
-            'eleves' => $stagiaires
+            'eleves' => $stagiairesWithoutClass
         ]);
     }
+
     public function add(Request $request)
     {
         $request->validate([
@@ -49,15 +54,15 @@ class ClasseController extends Controller
             'classes' => $classes,
         ]);
     }
-    public function addClassToStudent(Request $request, $inscriptionId)
+    public function assignClass($inscriptionId, $classId)
     {
-        $classeId = $request->input('id_classe');
         $inscription = Inscription::findOrFail($inscriptionId);
-        $classe = Classe::findOrFail($classeId);
-        $inscription->classes()->attach($classe);
 
-        return response()->json(['success' => true]);
+        $inscription->classes()->sync($classId);
+
+        return response()->json('fwufeu');
     }
+
 
     public function store(Request $request, $classeId)
     {
@@ -83,38 +88,37 @@ class ClasseController extends Controller
 
         $students = Classe::findOrFail($classId)->inscriptions()->with('stagiaire')->get();
 
-      
+
         $exams = Examen::where('id_classes', $classId)
             ->where('id_modules', $moduleId)
             ->with('type_examen')
             ->get();
 
-            $studentsWithExamsAndNotes = [];
-            foreach ($students as $student) {
-                foreach ($student->stagiaire as $stagiaire) {
-                    $studentWithExamsAndNotes = [
-                        'id' => $stagiaire->id,
-                        'name' => $stagiaire->nom,
-                        'exams' => [],
-                    ];
-            
-                    foreach ($exams as $exam) {
-                        $notes = $exam->where('id_classes', $classId)
-                                      ->where('id_modules', $moduleId)
-                                      ->pluck('note')
-                                      ->toArray();
+        $studentsWithExamsAndNotes = [];
+        foreach ($students as $student) {
+            foreach ($student->stagiaire as $stagiaire) {
+                $studentWithExamsAndNotes = [
+                    'id' => $stagiaire->id,
+                    'name' => $stagiaire->nom,
+                    'exams' => [],
+                ];
+
+                foreach ($exams as $exam) {
+                    $notes = $exam->where('id_classes', $classId)
+                        ->where('id_modules', $moduleId)
+                        ->pluck('note')
+                        ->toArray();
                     $studentWithExamsAndNotes['exams'][] = [
                         'module' => $exam->module->nom,
                         'type' => $exam->type_examen->nom,
                         'notes' => $notes,
                     ];
                 }
-            
+
                 $studentsWithExamsAndNotes[] = $studentWithExamsAndNotes;
             }
         }
 
         return redirect('/notes')->with('studentsWithExamsAndNotes', $studentsWithExamsAndNotes);
-
     }
 }

@@ -27,119 +27,149 @@ export default function SideBar() {
     //     }
     //     fetchNewRegistrations();
     //   }, []);
-      useEffect(() => {
+    useEffect(() => {
         fetch("/new-eleves").then((response) =>
             response.json().then((data) => setNewRegistrations(data.count))
         );
     }, []);
 
     return (
-        <div className="sidebar min-h-screen w-[3.27rem] overflow-hidden border-r hover:w-56 bg-[#003366] hover:shadow-lg">
-            <div className="flex h-screen flex-col justify-between pt-2 pb-6">
+        <div className="sidebar min-h-screen  overflow-hidden border-r w-56 bg-[#003366] hover:shadow-lg">
+            <div className="flex h-screen flex-col justify-between pt-2 pb-6 text-white">
                 <div>
-                    <div className="w-max p-2.5">
-                        <Link href="/dashboard/admin">
-                            <AiFillHome className="text-lg text-white mx-1" />
-                        </Link>
+                    <div className="p-2.5  font-extrabold text-xl leading-5 text-center font-syne">
+                        school360
                     </div>
-                    <ul className="mt-6 space-y-2 tracking-wide">
-                        <li className="min-w-max hover:bg-[#5066c9]">
-                            <Link
-                                href="/eleves"
-                                aria-label="dashboard"
-                                className="relative flex items-center bg-gradient-to-r gap-4 px-4 py-3 text-white"
+                    <ul class="flex flex-col py-4 space-y-1 ">
+                        <li>
+                            <a
+                                href="/dashboard/admin"
+                                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9] text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
                             >
-                                <FaUserGraduate className="text-lg" />
-                                <span className="-mr-1 font-medium">
-                                Élève                                </span>
-                                <div className="py-1 ml-10 px-3 bg-gray-300 rounded text-[#003366] text-xs">{newRegistrations}</div>
-                            </Link>
-                        </li>
-                        <li className="min-w-max hover:bg-[#5066c9]">
-                        
-                        <Link
-                            href="/professeurs"
-                            className="bg group flex items-center space-x-4 rounded-full px-4 py-3 text-white"
-                        >
-                            <FaChalkboardTeacher className="text-lg" />
-                            <span className="">Professeur</span>
-                                                
-                        </Link>
-                    </li>
-                        {/* <li className="min-w-max ">
-                            <button
-                                onClick={toggleDropdown}
-                                className="bg group flex items-center space-x-4 rounded-full px-4 py-3 text-white"
-                            >
-                               <FaChalkboardTeacher className="text-lg" />
-                                <span class="flex-1 ml-3 text-left whitespace-nowrap">
-                                    Professeur
+                                <span class="inline-flex justify-center items-center ml-4">
+                                    <AiFillHome className="text-lg"/>
                                 </span>
-                                <svg
-                                    sidebar-toggle-item
-                                    class="w-6 h-6"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                        clip-rule="evenodd"
-                                    ></path>
-                                </svg>
-                            </button>
-                            <ul
-                                id="dropdown-example"
-                                class="hidden py-2 space-y-2"
-                                className={`${
-                                    isOpen ? "block" : "hidden"
-                                } py-2 space-y-2`}
+                                <span class="ml-2 text-sm tracking-wide truncate">
+                                    Dashboard
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="/eleves"
+                                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
                             >
-                                <Link
-                                        href="/professeurs"
-                                        class="flex items-center w-full p-2 text-base font-normal text-slate-200 transition duration-75 group pl-11 hover:bg-[#5066c9]"
-                                    >
-                                        Afficher
-                                  
-                                </Link>
-                            </ul>
-                        </li> */}
-                        <li className="min-w-max hover:bg-[#5066c9]">
-                            <Link
+                                <span class="inline-flex justify-center items-center ml-4">
+                                <FaUserGraduate className="text-lg" />
+                                </span>
+                                <span class="ml-2 text-sm tracking-wide truncate">
+                                Élève
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a
+                                href="/professeurs"
+                                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
+                            >
+                                <span class="inline-flex justify-center items-center ml-4">
+                                    <FaChalkboardTeacher className="text-lg"/>
+                                </span>
+                                <span class="ml-2 text-sm tracking-wide truncate">
+                                Professeur
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a
                                 href="/admins"
-                                className="bg group flex items-center space-x-4 rounded-full px-4 py-3 text-white"
+                                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
                             >
-                                <RiAdminFill className="text-lg" />
-                                <span className="">Administrateur</span>
-                            </Link>
+                                <span class="inline-flex justify-center items-center ml-4">
+                               < RiAdminFill className="text-lg"/>
+                                </span>
+                                <span class="ml-2 text-sm tracking-wide truncate">
+                                Administrateur
+                                </span>
+                            </a>
                         </li>
-                        <li className="min-w-max hover:bg-[#5066c9]">
-                            <Link
+                        <li>
+                            <a
                                 href="/niveau"
-                                className="group flex items-center space-x-4 rounded-md px-4 py-3 text-white"
+                                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
                             >
-                                <BsList className="text-lg" />
-                                <span className="">Niveaux</span>
-                            </Link>
+                                <span class="inline-flex justify-center items-center ml-4">
+                               < BsList className="text-lg"/>
+                                </span>
+                                <span class="ml-2 text-sm tracking-wide truncate">
+                                Niveaux
+                                </span>
+                            </a>
                         </li>
-                        <li className="min-w-max hover:bg-[#5066c9]">
-                            <Link
+                        <li>
+                            <a
                                 href="/modules"
-                                className="group flex items-center space-x-4 rounded-md px-4 py-3 text-white"
+                                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
                             >
-                                <ImBooks className="text-lg" />
-                                <span className="">Matières</span>
-                            </Link>
+                                <span class="inline-flex justify-center items-center ml-4">
+                               < ImBooks className="text-lg"/>
+                                </span>
+                                <span class="ml-2 text-sm tracking-wide truncate">
+                                Matières
+                                </span>
+                            </a>
                         </li>
-                        <li className="min-w-max hover:bg-[#5066c9]">
-                            <Link
+                        <li>
+                            <a
                                 href="/classes"
-                                className="group flex items-center space-x-4 rounded-md px-4 py-3 text-white"
+                                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
                             >
-                                <SiGoogleclassroom className="text-lg" />
-                                <span className="">Classes</span>
-                            </Link>
+                                <span class="inline-flex justify-center items-center ml-4">
+                               <SiGoogleclassroom  className="text-lg"/>
+                                </span>
+                                <span class="ml-2 text-sm tracking-wide truncate">
+                                Classes
+                                </span>
+                            </a>
+                        </li>
+                        <li class="px-5 hidden md:block">
+                            <div class="flex flex-row items-center mt-5 h-8">
+                                <div class="text-[9px] font-light tracking-wide  uppercase">
+                                Paramètres
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a
+                                href="#"
+                                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-[#5066c9]  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
+                            >
+                                <span class="inline-flex justify-center items-center ml-4">
+                                    <svg
+                                        class="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                        ></path>
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                        ></path>
+                                    </svg>
+                                </span>
+                                <span class="ml-2 text-sm tracking-wide truncate">
+                                Paramètres
+                                </span>
+                            </a>
                         </li>
                     </ul>
                 </div>

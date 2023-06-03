@@ -41,7 +41,8 @@ export default function AjoutAdmin(props) {
             <Head title="Administrateur" />
             <div className="flex gap-2 h-screen">
             <SideBar/>
-            <form className="xl:w-[43%] h-fit mx-6 p-4 bg-white rounded-md shadow my-8 items" onSubmit={submit}>
+            <div className="flex flex-row justify-center w-4/5 ">
+            <form className="xl:w-1/2 h-fit mx-6 p-4 bg-white rounded-md shadow my-8 items" onSubmit={submit}>
                 <h1 className="text-gray-500  font-medium">Ajouter un nouveau administrateur :</h1>
                 <div className="flex gap-2 mt-4">
                     <div className="w-1/2">
@@ -140,11 +141,11 @@ export default function AjoutAdmin(props) {
                     />
                 </div>
                 <div className="flex items-center justify-end mt-6">
-                <PrimaryButton className="ml-4" disabled={processing}>
+                <PrimaryButton className="ml-4 bg-indigo-500" disabled={processing}>
                         Ajouter
                     </PrimaryButton>
                 </div>
-            </form></div>
+            </form></div></div>
         </AuthenticatedLayout>
     );
 }

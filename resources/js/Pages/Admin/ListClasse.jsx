@@ -40,6 +40,7 @@ export default function ListClasse(props) {
         nom: "",
         class: "",
         file: "",
+        class_id: "",
     });
     useEffect(() => {
         fetch("/niveaux").then((response) =>
@@ -111,7 +112,14 @@ export default function ListClasse(props) {
         post(route("emplois.add", classeId));
     };
     const handleClassSelection = (e, inscriptionId) => {
-        post(route("eleve.class", inscriptionId));
+        const classId = e.target.value;
+        post(route("eleve.class", { inscriptionId, classId }))
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     console.log(props);
@@ -251,45 +259,54 @@ export default function ListClasse(props) {
                                                             encType="multipart/form-data"
                                                             method="PUT"
                                                         >
-                                                             {classe.emplois ? (
+                                                            {classe.emplois ? (
                                                                 <div>
-                                                            <p>
-                                                                emplois
-                                                                uploaded or upload again:
-                                                            </p>
-                                                            
-                                                            <TextInput
-                                                            id="timetable"
-                                                            name="timetable"
-                                                            type="file"
-                                                            onChange={(e) =>
-                                                                setData(
-                                                                    "timetable",
-                                                                    e.target
-                                                                    .files[0]
-                                                                    )
-                                                                }
-                                                                /></div>
-                                                                ) : (
-                                                                    
-                                                            <TextInput
-                                                                id="file"
-                                                                name="file"
-                                                                type="file"
-                                                                onChange={(e) =>
-                                                                    setData(
-                                                                        "file",
-                                                                        e.target
-                                                                            .files[0]
-                                                                    )
-                                                                }
+                                                                    <p>
+                                                                        emplois
+                                                                        uploaded
+                                                                        or
+                                                                        upload
+                                                                        again:
+                                                                    </p>
+
+                                                                    <TextInput
+                                                                        id="timetable"
+                                                                        name="timetable"
+                                                                        type="file"
+                                                                        onChange={(
+                                                                            e
+                                                                        ) =>
+                                                                            setData(
+                                                                                "timetable",
+                                                                                e
+                                                                                    .target
+                                                                                    .files[0]
+                                                                            )
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                            ) : (
+                                                                <TextInput
+                                                                    id="file"
+                                                                    name="file"
+                                                                    type="file"
+                                                                    onChange={(
+                                                                        e
+                                                                    ) =>
+                                                                        setData(
+                                                                            "file",
+                                                                            e
+                                                                                .target
+                                                                                .files[0]
+                                                                        )
+                                                                    }
                                                                 />
-                                                                )}
+                                                            )}
                                                             <button
-                                                            className="text-[#003366] hover:text-sm"
-                                                            disabled={
-                                                                processing
-                                                            }
+                                                                className="text-[#003366] hover:text-sm"
+                                                                disabled={
+                                                                    processing
+                                                                }
                                                             >
                                                                 <BsCheckLg />
                                                             </button>
@@ -478,6 +495,7 @@ export default function ListClasse(props) {
                                                                 value={
                                                                     data.class_id
                                                                 }
+                                                                name="class_id"
                                                             >
                                                                 <option value="">
                                                                     Classe
