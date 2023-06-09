@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('niveaux_filieres',function(Blueprint $table){
             $table->unsignedBigInteger('id_niveaux');
             $table->unsignedBigInteger('id_filieres');
-            $table->foreign('id_niveaux')->references('id')->on('niveaux');
-            $table->foreign('id_filieres')->references('id')->on('filieres');
+            $table->foreign('id_niveaux')->references('id')->on('niveaux')->onDelete('cascade');
+            $table->foreign('id_filieres')->references('id')->on('filieres')->onDelete('cascade');
 
 
         });

@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('id_classes');
             $table->unsignedBigInteger('id_modules');
             $table->unsignedBigInteger('id_professeurs');
-            $table->foreign('id_modules')->references('id')->on('modules');
-            $table->foreign('id_professeurs')->references('id')->on('professeurs');
-            $table->foreign('id_classes')->references('id')->on('classes');
+            $table->foreign('id_modules')->references('id')->on('modules')->onDelete('cascade');
+            $table->foreign('id_professeurs')->references('id')->on('professeurs')->onDelete('cascade');
+            $table->foreign('id_classes')->references('id')->on('classes')->onDelete('cascade');
         });
     }
 

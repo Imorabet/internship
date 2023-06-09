@@ -59,8 +59,6 @@ class ClasseController extends Controller
         $inscription = Inscription::findOrFail($inscriptionId);
 
         $inscription->classes()->sync($classId);
-
-        return response()->json('fwufeu');
     }
 
 

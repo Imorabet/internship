@@ -51,7 +51,7 @@ Route::get('/dashboard/stagiaire', function () {
 }, [StagiaireController::class, 'index'])
     ->middleware(['auth', 'role:stagiaires'])->name('dashboard.stagiaire');
 
-Route::get('/download-emploi', [StagiaireController::class,'downloadEmploi'])->middleware(['auth', 'role:stagiaires'])->name('download-emploi');
+Route::get('/download-emploi', [StagiaireController::class,'downloadEmploi'])->middleware(['auth', 'role:stagiaires'])->name('download.emploi');
 
 #---------------------------------------------------
 Route::get('/dashboard/professeur', function () {

@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('inscription_classes', function (Blueprint $table) {
             $table->unsignedBigInteger('id_inscriptions');
             $table->unsignedBigInteger('id_classes');
-            $table->foreign('id_classes')->references('id')->on('classes');
-            $table->foreign('id_inscriptions')->references('id')->on('inscriptions');
+            $table->foreign('id_classes')->references('id')->on('classes')->onDelete('cascade');
+            $table->foreign('id_inscriptions')->references('id')->on('inscriptions')->onDelete('cascade');
         });
     }
 
